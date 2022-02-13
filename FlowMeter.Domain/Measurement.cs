@@ -5,13 +5,15 @@ namespace FlowMeter.Domain
     public class Measurement
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public string Localization { get; set; }
-        public string Device { get; set; }
-        public decimal Velocity { get; set; }
-        public string Distance { get; set; }
+        public DateTime Time { get; set; }
         public string Battery { get; set; }
-        public string Pressure { get; set; }
-        public decimal Temperature { get; set; }
+        public double Pressure { get; set; }
+        public double Temperature { get; set; }
+        public double CurrentFlow { get; set; }
+        public double AverageFlow { get; set; }
+        public double MedianFlow { get; set; }
+        public bool IsSpecialPoint { get; set; }
+        public Survey Survey { get; set; }
+        public int SurveyId { get; set; }
     }
 }

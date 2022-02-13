@@ -1,7 +1,11 @@
-﻿namespace FlowMeter.Domain.Shapes
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FlowMeter.Domain.Shapes
 {
     public class Circle : Shape
     {
-        public decimal Radius { get; set; }
+        public double Radius { get; set; }
+        [NotMapped]
+        public override ShapeType Type => ShapeType.Circle;
     }
 }

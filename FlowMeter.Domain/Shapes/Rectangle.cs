@@ -1,8 +1,12 @@
-﻿namespace FlowMeter.Domain.Shapes
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FlowMeter.Domain.Shapes
 {
     public class Rectangle : Shape
     {
-        public decimal Lenght { get; set; }
-        public decimal Height { get; set; }
+        public double Lenght { get; set; }
+        public double Height { get; set; }
+        [NotMapped]
+        public override ShapeType Type => ShapeType.Rectangle;
     }
 }
