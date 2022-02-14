@@ -1,4 +1,5 @@
 using FlowMeter.Data;
+using FlowMeter.DataManipulation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace FlowMeter.API
@@ -32,6 +34,9 @@ namespace FlowMeter.API
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection"));
             });
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
