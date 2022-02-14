@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FlowMeter.Data\FlowMeter.Data.csproj" />
+    <ProjectReference Include="..\FlowMeter.Domain\FlowMeter.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
