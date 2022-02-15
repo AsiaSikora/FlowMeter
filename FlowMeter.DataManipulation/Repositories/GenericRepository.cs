@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace FlowMeter.DataManipulation
+namespace FlowMeter.DataManipulation.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly FlowMeterDbContext _context;
+        protected readonly FlowMeterDbContext _context;
         private readonly DbSet<T> _db;
 
         public GenericRepository(FlowMeterDbContext context)

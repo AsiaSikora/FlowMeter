@@ -1,8 +1,10 @@
 ﻿using FlowMeter.Data;
+using FlowMeter.DataManipulation.Repositories;
 using FlowMeter.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,11 +19,13 @@ namespace FlowMeter.DataManipulation
             _context = context;
         }
 
-        public IGenericRepository<User> Users => new GenericRepository<User>(_context);
-
+        public IUserRepository Users => new UserRepository(_context);
+        
         public void Save()
         {
             _context.SaveChanges();
         }
+
+
     }
 }

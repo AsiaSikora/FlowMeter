@@ -1,11 +1,16 @@
-﻿using FlowMeter.Domain;
+﻿using FlowMeter.DataManipulation.Repositories;
+using FlowMeter.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace FlowMeter.DataManipulation
 {
     public interface IUnitOfWork
     {
-        IGenericRepository<User> Users { get; }
-
+        IUserRepository Users { get; }
         void Save();
+
     }
 }
