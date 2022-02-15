@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FlowMeter.API.Models.User;
 using FlowMeter.DataManipulation;
+using FlowMeter.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -33,7 +34,7 @@ namespace FlowMeter.API.Controllers
             return Ok(usersDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "Get")]
         public IActionResult GetUser(int id)
         {
             var user = _uow.Users.Get(x => x.Id == id);
@@ -57,5 +58,26 @@ namespace FlowMeter.API.Controllers
 
             return NoContent();
         }
+
+        [HttpPost]
+        public IActionResult CreateUser([FromBody] CreateUserDto createUser)
+        {
+            var userDto = new UserDto()
+            {
+                FirstName = createUser.FirstName,
+                LastName = createUser.LastName,
+                Email = createUser.Email,
+                Hash = createUser.Password /// TODO: Password should be hashed
+            };
+            
+            var user = _mapper.Map<User>(userDto);
+            
+            _uow.Users.Add(user);
+            _uow.Save();
+
+            return CreatedAtRoute("Get", new { id = userDto.Id }, userDto);
+
+        }
+
     }
 }
