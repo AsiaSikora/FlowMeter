@@ -16,7 +16,7 @@ namespace FlowMeter.Data
         public DbSet<Localization> Localizations { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<Survey> Surveys { get; set; }
-
+        
         public FlowMeterDbContext(DbContextOptions options) : base(options)
         {
         }

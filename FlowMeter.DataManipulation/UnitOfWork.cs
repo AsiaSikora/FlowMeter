@@ -20,6 +20,7 @@ namespace FlowMeter.DataManipulation
         }
 
         public IUserRepository Users => new UserRepository(_context);
+        public IDeviceRepository Devices => new DeviceRepository(_context);
         
         public void Save()
         {
