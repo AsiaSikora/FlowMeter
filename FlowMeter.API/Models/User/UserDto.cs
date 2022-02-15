@@ -11,6 +11,7 @@ namespace FlowMeter.API.Models.User
     {
         [Required]
         public int Id { get; set; }
+        public string Hash { get; set; }
         public List<Device> Devices { get; set; }
     }
 }
