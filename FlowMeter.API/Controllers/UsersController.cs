@@ -80,5 +80,16 @@ namespace FlowMeter.API.Controllers
 
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            var user = _uow.Users.Get(x => x.Id == id);
+
+            _uow.Users.Remove(id);
+            _uow.Save();
+
+            return NoContent();
+        }
+
     }
 }
