@@ -10,18 +10,13 @@ namespace FlowMeter.DataManipulation.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly FlowMeterDbContext _context;
-        private readonly DbSet<T> _db;
+        protected readonly DbSet<T> _db;
 
         public GenericRepository(FlowMeterDbContext context)
         {
             _context = context;
             _db = context.Set<T>();
         }
-
-        //public PagedList<T> GetAllParams(RequestParameters requestParameters)
-        //{
-        //    return PagedList<T>.ToPagesList(_db, requestParameters.PageNumber, requestParameters.PageSize);
-        //}
 
         public List<T> GetAll(Expression<Func<T, bool>> expression = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,

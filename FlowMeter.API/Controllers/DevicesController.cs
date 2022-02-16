@@ -23,7 +23,7 @@ namespace FlowMeter.API.Controllers
         [HttpGet]
         public IActionResult GetDevices()
         {
-            var devices = _uow.Devices.GetAllDevicesWithUsersAndSurveys();
+            var devices = _uow.Devices.GetAllDevicesWithIncludes();
             var devicesDto = _mapper.Map<List<DeviceDto>>(devices);
             return Ok(devicesDto);
         }

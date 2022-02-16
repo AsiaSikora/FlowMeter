@@ -10,7 +10,7 @@ namespace FlowMeter.DataManipulation
     public interface IUnitOfWork
     {
         IUserRepository Users { get; }
-        IDeviceRepository Devices { get; }
+        DeviceRepository Devices { get; }
         void Save();
 
     }
