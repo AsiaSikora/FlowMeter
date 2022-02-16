@@ -33,6 +33,7 @@ namespace FlowMeter.API
             services.AddDbContext<FlowMeterDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection"));
+                // b => b.MigrationsAssembly("FlowMeter.Data"));
             });
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();

@@ -16,6 +16,10 @@ namespace FlowMeter.Data
         public DbSet<Localization> Localizations { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<Survey> Surveys { get; set; }
+        public DbSet<Shape> Shapes { get; set; }
+        public DbSet<Rectangle> Rectangles { get; set; }
+        public DbSet<Circle> Circles { get; set; }
+        public DbSet<Trapeze> Trapezes { get; set; }
         
         public FlowMeterDbContext(DbContextOptions options) : base(options)
         {
