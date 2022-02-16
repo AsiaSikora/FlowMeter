@@ -54,6 +54,7 @@ namespace FlowMeter.API.Controllers
             }
 
             _mapper.Map(updateUserDto, user);
+            _uow.Users.Modify(user);
             _uow.Save();
 
             return NoContent();
