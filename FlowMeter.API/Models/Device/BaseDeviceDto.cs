@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FlowMeter.API.Models.User;
 using FlowMeter.Domain;
 
 
@@ -8,6 +9,7 @@ namespace FlowMeter.API.Models.Device
     {
         [Required]
         public int DeviceNumber { get; set; }
-        public Domain.User User { get; set; }
+        //public UserDto User { get; set; }
+        public int UserId { get; set; }
     }
 }
