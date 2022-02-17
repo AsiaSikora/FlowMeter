@@ -1,4 +1,5 @@
 ﻿using FlowMeter.API.Models.Device;
+using FlowMeter.API.Models.Localization;
 using FlowMeter.Domain;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,8 @@ namespace FlowMeter.API.Models.Survey
         public DateTime Date { get; set; }
         public DeviceDto Device { get; set; }
         public int DeviceId { get; set; }
-        //public string Name { get; set; }
-        //public decimal? GpsCoordinate1 { get; set; }
-        //public decimal? GpsCoordinate2 { get; set; }
-        //public double CanalRadius { get; set; }
+        public LocalizationDto Localization { get; set; }
+        public int LocalizationId { get; set; }
+
     }
 }
