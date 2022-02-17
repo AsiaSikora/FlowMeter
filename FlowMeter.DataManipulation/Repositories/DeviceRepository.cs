@@ -19,12 +19,15 @@ namespace FlowMeter.DataManipulation.Repositories
         public List<Device> GetAllDevicesWithUsersAndSurveys(Expression<Func<Device, bool>> expression = null, 
             Func<IQueryable<Device>, IOrderedQueryable<Device>> orderBy = null)
         {
-            return base.GetAll(expression, orderBy, new List<string>() { "Users" });
+            return base.GetAll(expression, orderBy, new List<string>() { "User" });
         }
 
         public List<Device> GetAllDevicesWithIncludes()
         {
-            return _db.Include(x => x.Surveys).ToList();
+            return _db
+                .Include(x => x.Surveys)
+                .Include(x => x.User)
+                .ToList();
         }
     }
 }

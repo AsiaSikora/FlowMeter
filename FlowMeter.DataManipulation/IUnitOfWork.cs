@@ -11,6 +11,7 @@ namespace FlowMeter.DataManipulation
     {
         IUserRepository Users { get; }
         DeviceRepository Devices { get; }
+        MeasurementRepository Measurements { get; }
         void Save();
 
     }
