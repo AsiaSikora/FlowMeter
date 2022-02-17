@@ -15,9 +15,29 @@ namespace FlowMeter.DataManipulation.Repositories
         {
         }
 
-        public List<Measurement> GetAllMeasurementsWithSurveys()
+        public List<Measurement> GetMeasurementsForSurvey(int surveyId)
         {
-            return _db.Include(x => x.Survey).ToList();
+            return _db
+                .Where(x => x.SurveyId == surveyId)
+                .Include(x => x.Survey)
+                .ToList();
         }
+
+        public Survey GetMeasurementSurvey(int surveyId)
+        {
+            return _context
+                .Surveys
+                .Include(x => x.Localization)
+                .FirstOrDefault(x => x.Id == surveyId);
+        }
+
+        public double GetAverageFlow(int surveyId)
+        {
+            return _db
+                .Where(x => x.SurveyId == surveyId)
+                .Average(x => x.CurrentFlow);
+        }
+
+
     }
 }
