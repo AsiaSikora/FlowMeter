@@ -2,7 +2,7 @@
 
 namespace FlowMeter.Domain.Shapes
 {
-    public class Trapeze : Shape
+    public class Trapezium : Shape
     {
         public double? LengthA { get; set; }
         public double? LengthB { get; set; }

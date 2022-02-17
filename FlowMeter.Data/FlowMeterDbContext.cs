@@ -19,10 +19,18 @@ namespace FlowMeter.Data
         public DbSet<Shape> Shapes { get; set; }
         public DbSet<Rectangle> Rectangles { get; set; }
         public DbSet<Circle> Circles { get; set; }
-        public DbSet<Trapeze> Trapezes { get; set; }
+        public DbSet<Trapezium> Trapeziums { get; set; }
         
         public FlowMeterDbContext(DbContextOptions options) : base(options)
         {
+        }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Shape>().ToTable("Shapes");
+            modelBuilder.Entity<Circle>().ToTable("Circles");
+            modelBuilder.Entity<Rectangle>().ToTable("Rectangles");
+            modelBuilder.Entity<Trapezium>().ToTable("Trapeziums");
         }
         
         
