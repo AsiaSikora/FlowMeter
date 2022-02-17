@@ -8,15 +8,8 @@ namespace FlowMeter.API.Models.Measurement
 {
     public class BaseMeasurementDto
     {
-        public DateTime Time { get; set; }
         public string Battery { get; set; }
-        public double? Pressure { get; set; }
-        public double? Temperature { get; set; }
-        public double? CurrentFlow { get; set; }
-        public double? AverageFlow { get; set; }
-        public double? MedianFlow { get; set; }
-        public bool IsSpecialPoint { get; set; }
-        public SurveyDto Survey { get; set; }
-        public int SurveyId { get; set; }
+        public double Pressure { get; set; }
+        public double Temperature { get; set; }
     }
 }
