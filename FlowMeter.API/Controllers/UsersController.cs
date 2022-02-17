@@ -54,6 +54,7 @@ namespace FlowMeter.API.Controllers
             }
 
             _mapper.Map(updateUserDto, user);
+            _uow.Users.Modify(user);
             _uow.Save();
 
             return NoContent();
@@ -77,6 +78,17 @@ namespace FlowMeter.API.Controllers
 
             return CreatedAtRoute("Get", new { id = userDto.Id }, userDto);
 
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            var user = _uow.Users.Get(x => x.Id == id);
+
+            _uow.Users.Remove(id);
+            _uow.Save();
+
+            return NoContent();
         }
 
     }
