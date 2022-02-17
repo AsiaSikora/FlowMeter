@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FlowMeter.API.Models.Measurement;
 using FlowMeter.DataManipulation;
+using FlowMeter.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FlowMeter.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/surveys/{surveyId}/measurements")]
     [ApiController]
     public class MeasurementsController : ControllerBase
     {
@@ -24,69 +25,68 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMeasurements()
+        public IActionResult GetMeasurements(int surveyId)
         {
-            var measurements = _uow.Measurements.GetAllMeasurementsWithSurveys();
+            var measurements = _uow.Measurements.GetMeasurementsForSurvey(surveyId);
             var measurementsDto = _mapper.Map<List<MeasurementDto>>(measurements);
 
             return Ok(measurementsDto);
         }
 
-        //[HttpGet("{id}", Name = "Get")]
-        //public IActionResult GetUser(int id)
-        //{
-        //    var user = _uow.Users.Get(x => x.Id == id);
-        //    var userDto = _mapper.Map<UserDto>(user);
+        [HttpGet("{id}", Name = "GetMeasurement")]
+        public IActionResult GetMeasurement(int id, int surveyId)
+        {
+            var measurement = _uow.Measurements.Get(x => x.Id == id);
+            var measurementDto = _mapper.Map<MeasurementDto>(measurement);
 
-        //    return Ok(userDto);
-        //}
+            return Ok(measurementDto);
+        }
 
-        //[HttpPut("{id}")]
-        //public IActionResult UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
-        //{
-        //    var user = _uow.Users.Get(x => x.Id == id);
+        [HttpPost]
+        public IActionResult CreateMeasurement([FromBody] CreateMeasurementDto dto, int surveyId)
+        {
 
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var radius = _uow.Measurements.GetMeasurementSurvey(surveyId).Localization.CanalRadius;
+            var averageFlow = _uow.Measurements.GetAverageFlow(surveyId);
+            
+            var measurementDto = new MeasurementDto(dto, surveyId, radius, averageFlow);
 
-        //    _mapper.Map(updateUserDto, user);
-        //    _uow.Users.Modify(user);
-        //    _uow.Save();
 
-        //    return NoContent();
-        //}
+            var measurement = _mapper.Map<Measurement>(measurementDto);
 
-        //[HttpPost]
-        //public IActionResult CreateUser([FromBody] CreateUserDto createUser)
-        //{
-        //    var userDto = new UserDto()
-        //    {
-        //        FirstName = createUser.FirstName,
-        //        LastName = createUser.LastName,
-        //        Email = createUser.Email,
-        //        Hash = createUser.Password /// TODO: Password should be hashed
-        //    };
+            _uow.Measurements.Add(measurement);
+            _uow.Save();
 
-        //    var user = _mapper.Map<User>(userDto);
+            return CreatedAtRoute("GetMeasurement", new { id = measurementDto.Id }, measurementDto);
 
-        //    _uow.Users.Add(user);
-        //    _uow.Save();
+        }
 
-        //    return CreatedAtRoute("Get", new { id = userDto.Id }, userDto);
+        [HttpPut("{id}")]
+        public IActionResult UpdateMeasurement(int id, [FromBody] UpdateMeasurementDto dto)
+        {
+            var measurement = _uow.Measurements.Get(x => x.Id == id);
 
-        //}
+            if (measurement == null)
+            {
+                return NotFound();
+            }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult DeleteUser(int id)
-        //{
-        //    var user = _uow.Users.Get(x => x.Id == id);
+            _mapper.Map(dto, measurement);
+            _uow.Measurements.Modify(measurement);
+            _uow.Save();
 
-        //    _uow.Users.Remove(id);
-        //    _uow.Save();
+            return NoContent();
+        }
 
-        //    return NoContent();
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMeasurement(int id, int surveyId)
+        {
+            var measurement = _uow.Measurements.Get(x => x.Id == id);
+
+            _uow.Measurements.Remove(id);
+            _uow.Save();
+
+            return NoContent();
+        }
     }
 }
