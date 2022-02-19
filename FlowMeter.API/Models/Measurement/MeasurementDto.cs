@@ -16,38 +16,21 @@ namespace FlowMeter.API.Models.Measurement
         public int SurveyId { get; set; }
         public DateTime Time { get; set; }
 
-        public MeasurementDto(CreateMeasurementDto createMeasurement, int surveyId, double radius, double averageFlow)
-        {
-            this.Battery = createMeasurement.Battery;
-            this.Pressure = createMeasurement.Pressure;
-            this.Temperature = createMeasurement.Temperature;
-            this.Time = DateTime.Now;
-            this.SurveyId = surveyId;
-            this.CurrentFlow = GetCurrentFlow(createMeasurement, radius);
-            this.AverageFlow = averageFlow;
-            this.IsSpecialPoint = CheckIsSpecialPoint();
-        }
-
-        private double GetCurrentFlow(CreateMeasurementDto createMeasurement, double radius)
+        public static double GetCurrentFlow(CreateMeasurementDto createMeasurement, double radius)
         {
             var sectionArea = GetSectionArea(createMeasurement, radius);
 
             return sectionArea * createMeasurement.Velocity;
         }
 
-        private double GetSectionArea(CreateMeasurementDto createMeasurement, double radius)
+        private static double GetSectionArea(CreateMeasurementDto createMeasurement, double radius)
         {
             return 2.00;
         }
 
-        private bool CheckIsSpecialPoint()
+        public static bool CheckIsSpecialPoint(double currentFlow, double averageFlow)
         {
-            if (this.CurrentFlow > 2 * this.AverageFlow)
-            {
-                return true;
-            }
-
-            return false;
+            return currentFlow > 2 * averageFlow;
         }
     }
 }

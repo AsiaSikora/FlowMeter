@@ -37,5 +37,22 @@ namespace FlowMeter.API.Controllers
             return Ok(deviceDto);
         }
         
+        [HttpPut("{id:int}")]
+        public IActionResult UpdateDevice(int id, [FromBody]UpdateDeviceDto updateDeviceDto)
+        {
+            var device = _uow.Devices.Get(x => x.Id == id);
+
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(updateDeviceDto, device);
+            _uow.Devices.Modify(device);
+            _uow.Save();
+
+            return NoContent();
+        }
+        
     }
 }
