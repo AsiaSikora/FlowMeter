@@ -33,7 +33,7 @@ namespace FlowMeter.API.Controllers
             return Ok(measurementsDto);
         }
 
-        [HttpGet("{id}", Name = "GetMeasurement")]
+        [HttpGet("{id}", Name = "GetMeasurementName")]
         public IActionResult GetMeasurement(int id, int surveyId)
         {
             var measurement = _uow.Measurements.Get(x => x.Id == id);
@@ -69,7 +69,7 @@ namespace FlowMeter.API.Controllers
             _uow.Measurements.Add(measurement);
             _uow.Save();
         
-            return CreatedAtRoute("GetMeasurement", new { id = measurementDto.Id }, measurementDto);
+            return CreatedAtRoute("GetMeasurementName", new { id = measurement.Id, surveyId=surveyId }, measurementDto);
         
         }
 
