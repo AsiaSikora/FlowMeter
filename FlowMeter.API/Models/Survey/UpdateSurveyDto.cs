@@ -10,5 +10,6 @@ namespace FlowMeter.API.Models.Survey
     public class UpdateSurveyDto : BaseSurveyDto
     {
         public List<MeasurementDto> Measurements { get; set; }
+        public DateTime Date { get; set; }
     }
 }
