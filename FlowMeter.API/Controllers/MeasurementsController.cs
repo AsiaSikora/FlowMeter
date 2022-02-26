@@ -33,7 +33,7 @@ namespace FlowMeter.API.Controllers
             return Ok(measurementsDto);
         }
 
-        [HttpGet("{id}", Name = "GetMeasurement")]
+        [HttpGet("{id}", Name = "GetMeasurementName")]
         public IActionResult GetMeasurement(int id, int surveyId)
         {
             var measurement = _uow.Measurements.Get(x => x.Id == id);
@@ -43,22 +43,34 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateMeasurement([FromBody] CreateMeasurementDto dto, int surveyId)
+        public IActionResult CreateMeasurement([FromBody] CreateMeasurementDto createMeasurement, int surveyId)
         {
-
+        
             var radius = _uow.Measurements.GetMeasurementSurvey(surveyId).Localization.CanalRadius;
             var averageFlow = _uow.Measurements.GetAverageFlow(surveyId);
+            var currentFlow = MeasurementDto.GetCurrentFlow(createMeasurement, radius);
+            var isSpecialPoint = MeasurementDto.CheckIsSpecialPoint(currentFlow, averageFlow);
             
-            var measurementDto = new MeasurementDto(dto, surveyId, radius, averageFlow);
-
-
+            var measurementDto = new MeasurementDto()
+            {
+                Battery = createMeasurement.Battery,
+                Pressure = createMeasurement.Pressure,
+                Temperature = createMeasurement.Temperature,
+                Time = DateTime.Now,
+                SurveyId = surveyId,
+                CurrentFlow = currentFlow,
+                AverageFlow = averageFlow,
+                IsSpecialPoint = isSpecialPoint,
+            };
+        
+        
             var measurement = _mapper.Map<Measurement>(measurementDto);
-
+        
             _uow.Measurements.Add(measurement);
             _uow.Save();
-
-            return CreatedAtRoute("GetMeasurement", new { id = measurementDto.Id }, measurementDto);
-
+        
+            return CreatedAtRoute("GetMeasurementName", new { id = measurement.Id, surveyId=surveyId }, measurementDto);
+        
         }
 
         [HttpPut("{id}")]

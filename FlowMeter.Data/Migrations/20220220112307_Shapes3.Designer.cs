@@ -4,14 +4,16 @@ using FlowMeter.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowMeter.Data.Migrations
 {
     [DbContext(typeof(FlowMeterDbContext))]
-    partial class FlowMeterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220220112307_Shapes3")]
+    partial class Shapes3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
