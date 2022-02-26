@@ -10,10 +10,7 @@ namespace FlowMeter.API.Models.Survey
 {
     public class BaseSurveyDto
     {
-        public DeviceDto Device { get; set; }
         public int DeviceId { get; set; }
-        public LocalizationDto Localization { get; set; }
         public int LocalizationId { get; set; }
-
     }
 }

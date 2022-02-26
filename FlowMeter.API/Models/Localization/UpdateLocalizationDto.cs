@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlowMeter.API.Models.Localization
 {
-    public class UpdateLocalizationDto
+    public class UpdateLocalizationDto : BaseLocalizationDto
     {
         public List<SurveyDto> Surveys { get; set; }
     }

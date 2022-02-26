@@ -9,7 +9,6 @@ namespace FlowMeter.API.Models.Device
     {
         [Required]
         public int DeviceNumber { get; set; }
-        // public UserDto User { get; set; }
         public int UserId { get; set; }
     }
 }
