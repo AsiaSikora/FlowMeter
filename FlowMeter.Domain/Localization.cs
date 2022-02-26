@@ -13,7 +13,7 @@ namespace FlowMeter.Domain
         public decimal GpsCoordinate2 { get; set; }
         public double CanalRadius { get; set; }
         public List<Survey> Surveys { get; set; }
-        public Shape Shape { get; set; }
-        public int ShapeId { get; set; }
+        //public Shape Shape { get; set; }
+        //public int ShapeId { get; set; }
     }
 }
