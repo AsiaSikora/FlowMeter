@@ -46,7 +46,7 @@ namespace FlowMeter.API.Controllers
         public IActionResult CreateMeasurement([FromBody] CreateMeasurementDto createMeasurement, int surveyId)
         {
         
-            var radius = _uow.Measurements.GetMeasurementSurvey(surveyId).Localization.CanalRadius;
+            var radius = _uow.Surveys.GetSurveyWithLocalization(surveyId).Localization.CanalRadius;
             var averageFlow = _uow.Measurements.GetAverageFlow(surveyId);
             var currentFlow = MeasurementDto.GetCurrentFlow(createMeasurement, radius);
             var isSpecialPoint = MeasurementDto.CheckIsSpecialPoint(currentFlow, averageFlow);

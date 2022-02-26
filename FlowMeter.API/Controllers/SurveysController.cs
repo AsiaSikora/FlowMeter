@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FlowMeter.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users/{userId}/surveys")]
     [ApiController]
     public class SurveysController : ControllerBase
     {
@@ -25,9 +25,10 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetSurveys()
+        public IActionResult GetSurveys(int userId)
         {
-            var surveys = _uow.Surveys.GetAll();
+            var surveys = _uow.Surveys.GetSurveysWithLocalizationDeviceMeasurements(userId);
+            var surveys1 = _uow.Surveys.GetAll();
             var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
 
             return Ok(surveysDto);
@@ -65,9 +66,7 @@ namespace FlowMeter.API.Controllers
             var surveyDto = new SurveyDto()
             {
                 Date = DateTime.Today,
-                Device = createSurvey.Device,
                 DeviceId = createSurvey.DeviceId,
-                Localization = createSurvey.Localization,
                 LocalizationId = createSurvey.LocalizationId,
             };
 
@@ -90,5 +89,6 @@ namespace FlowMeter.API.Controllers
 
             return NoContent();
         }
+
     }
 }

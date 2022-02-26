@@ -32,9 +32,15 @@ namespace FlowMeter.DataManipulation.Repositories
 
         public double GetAverageFlow(int surveyId)
         {
-            return _db
-                .Where(x => x.SurveyId == surveyId)
+            var listOfMeasurements = _db.Where(x => x.SurveyId == surveyId).ToList();
+            if (listOfMeasurements.Count() > 0)
+            {
+                return listOfMeasurements
                 .Average(x => x.CurrentFlow);
+            }
+
+            return 0;
+            
         }
 
 
