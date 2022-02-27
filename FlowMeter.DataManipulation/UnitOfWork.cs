@@ -23,6 +23,7 @@ namespace FlowMeter.DataManipulation
         public DeviceRepository Devices => new DeviceRepository(_context);
         public MeasurementRepository Measurements => new MeasurementRepository(_context);
         public SurveyRepository Surveys => new SurveyRepository(_context);
+        public LocalizationRepository Localizations => new LocalizationRepository(_context);
         public void Save()
         {
             _context.SaveChanges();

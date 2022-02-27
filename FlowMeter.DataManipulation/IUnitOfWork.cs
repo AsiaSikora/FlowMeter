@@ -13,6 +13,7 @@ namespace FlowMeter.DataManipulation
         DeviceRepository Devices { get; }
         MeasurementRepository Measurements { get; }
         SurveyRepository Surveys { get; }
+        LocalizationRepository Localizations { get; }
         void Save();
 
     }
