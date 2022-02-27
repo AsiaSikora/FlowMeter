@@ -31,5 +31,15 @@ namespace FlowMeter.DataManipulation.Repositories
                 .Where(x => x.Device.UserId == userId)
                 .ToList();
         }
+
+        public List<Survey> GetLastFiveSurveys(int userId)
+        {
+            return _db
+                .Include(x => x.Localization)
+                .Include(x => x.Device)
+                .Where(x => x.Device.UserId == userId)
+                .OrderByDescending(x => x.Date)
+                .ToList();
+        }
     }
 }

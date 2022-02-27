@@ -16,5 +16,6 @@ namespace FlowMeter.API.Models.Survey
         public LocalizationDto Localization { get; set; }
         public DeviceDto Device { get; set; }
         public List<MeasurementDto> Measurements { get; set; }
+        public double AverageFlow { get; set; }
     }
 }

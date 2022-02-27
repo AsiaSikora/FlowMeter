@@ -28,7 +28,6 @@ namespace FlowMeter.API.Controllers
         public IActionResult GetSurveys(int userId)
         {
             var surveys = _uow.Surveys.GetSurveysWithLocalizationDeviceMeasurements(userId);
-            var surveys1 = _uow.Surveys.GetAll();
             var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
 
             return Ok(surveysDto);
@@ -88,6 +87,15 @@ namespace FlowMeter.API.Controllers
             _uow.Save();
 
             return NoContent();
+        }
+
+        [HttpGet("last-five-measurements")]
+        public IActionResult GetLastFiveSurveys(int userId)
+        {
+            var surveys = _uow.Surveys.GetLastFiveSurveys(userId);
+            var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
+
+            return Ok(surveysDto);
         }
 
     }
