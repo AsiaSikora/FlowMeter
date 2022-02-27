@@ -39,6 +39,7 @@ namespace FlowMeter.DataManipulation.Repositories
                 .Include(x => x.Device)
                 .Where(x => x.Device.UserId == userId)
                 .OrderByDescending(x => x.Date)
+                .Take(5)
                 .ToList();
         }
     }
