@@ -22,11 +22,12 @@ namespace FlowMeter.DataManipulation.Repositories
             return base.GetAll(expression, orderBy, new List<string>() { "User" });
         }
 
-        public List<Device> GetAllDevicesWithIncludes()
+        public List<Device> GetAllDevicesWithIncludes(int userId)
         {
             return _db
                 .Include(x => x.Surveys)
                 .Include(x => x.User)
+                .Where(x => x.User.Id == userId)
                 .ToList();
         }
     }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlowMeter.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users/{userId}/[controller]")]
     [ApiController]
     public class DevicesController : ControllerBase
     {
@@ -21,9 +21,9 @@ namespace FlowMeter.API.Controllers
         }
         
         [HttpGet]
-        public IActionResult GetDevices()
+        public IActionResult GetDevices(int userId)
         {
-            var devices = _uow.Devices.GetAllDevicesWithIncludes();
+            var devices = _uow.Devices.GetAllDevicesWithIncludes(userId);
             var devicesDto = _mapper.Map<List<DeviceDto>>(devices);
             return Ok(devicesDto);
         }
