@@ -36,7 +36,7 @@ namespace FlowMeter.API.Controllers
         [HttpGet("{id}", Name = "GetSurvey")]
         public IActionResult GetSurvey(int id)
         {
-            var survey = _uow.Surveys.Get(x => x.Id == id);
+            var survey = _uow.Surveys.GetSurveyWithIncludes(id);
             var surveyDto = _mapper.Map<SurveyDto>(survey);
 
             return Ok(surveyDto);
