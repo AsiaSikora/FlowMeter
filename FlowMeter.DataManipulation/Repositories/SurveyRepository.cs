@@ -49,7 +49,7 @@ namespace FlowMeter.DataManipulation.Repositories
                 .Include(x => x.Localization)
                 .Include(x => x.Device)
                 .Where(x => x.Device.UserId == userId)
-                .OrderByDescending(x => x.Date)
+                .OrderBy(x => x.Date)
                 .ToList();
         }
 
