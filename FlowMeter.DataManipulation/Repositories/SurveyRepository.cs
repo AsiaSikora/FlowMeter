@@ -42,6 +42,16 @@ namespace FlowMeter.DataManipulation.Repositories
                 .Take(5)
                 .ToList();
         }
+        
+        public List<Survey> GetAllSurveysWithoutMeasurements(int userId)
+        {
+            return _db
+                .Include(x => x.Localization)
+                .Include(x => x.Device)
+                .Where(x => x.Device.UserId == userId)
+                .OrderByDescending(x => x.Date)
+                .ToList();
+        }
 
         public Survey GetSurveyWithIncludes(int surveyId)
         {
