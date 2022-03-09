@@ -62,11 +62,14 @@ namespace FlowMeter.API.Controllers
         [HttpPost]
         public IActionResult CreateSurvey([FromBody] CreateSurveyDto createSurvey)
         {
+            var deviceId = _uow.Devices.GetDeviceId(createSurvey.DeviceNumber);
+            var LocalizationId = _uow.Localizations.GetLocalizationId(createSurvey.LocalizationName);
+
             var surveyDto = new SurveyDto()
             {
                 Date = DateTime.Today,
-                DeviceId = createSurvey.DeviceId,
-                LocalizationId = createSurvey.LocalizationId,
+                DeviceId = deviceId,
+                LocalizationId = LocalizationId,
             };
 
             var survey = _mapper.Map<Survey>(surveyDto);

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace FlowMeter.API.Models.Survey
 {
-    public class CreateSurveyDto : BaseSurveyDto
+    public class CreateSurveyDto
     {
+        public int DeviceNumber { get; set; }
+        public string LocalizationName { get; set; }
     }
 }
