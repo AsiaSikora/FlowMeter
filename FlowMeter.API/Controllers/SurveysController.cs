@@ -102,7 +102,7 @@ namespace FlowMeter.API.Controllers
         }
         
         [HttpGet("surveys-no-measurements")]
-        public IActionResult GetSurveysWithoutMeasurements(int userId)
+        public IActionResult GetAllSurveysWithoutMeasurements(int userId)
         {
             var surveys = _uow.Surveys.GetLastFiveSurveys(userId);
             var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
