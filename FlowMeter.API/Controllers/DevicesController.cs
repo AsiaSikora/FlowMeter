@@ -3,6 +3,7 @@ using AutoMapper;
 using FlowMeter.API.Models.Device;
 using FlowMeter.API.Models.User;
 using FlowMeter.DataManipulation;
+using FlowMeter.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlowMeter.API.Controllers
@@ -52,6 +53,25 @@ namespace FlowMeter.API.Controllers
             _uow.Save();
 
             return NoContent();
+        }
+        
+        [HttpPost]
+        
+        public IActionResult CreateDevice([FromBody] CreateDeviceDto createDevice, int userId)
+        {
+            var deviceDto = new DeviceDto()
+            {
+                DeviceNumber = createDevice.DeviceNumber,
+                UserId = userId
+            };
+            
+            var device = _mapper.Map<Device>(deviceDto);
+            
+            _uow.Devices.Add(device);
+            _uow.Save();
+
+            return CreatedAtRoute("Get", new { id = deviceDto.Id }, deviceDto);
+
         }
         
     }

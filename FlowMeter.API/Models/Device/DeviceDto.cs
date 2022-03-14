@@ -8,9 +8,10 @@ namespace FlowMeter.API.Models.Device
 {
     public class DeviceDto : BaseDeviceDto
     {
-        [Required]
+        
         public int Id { get; set; }
         public UserDto User { get; set; }
+        public int UserId { get; set; }
         public List<SurveyDto> Surveys { get; set; }
     }
 }
