@@ -23,12 +23,5 @@ namespace FlowMeter.DataManipulation.Repositories
                 .ToList();
         }
 
-        public int GetLocalizationId(string localizationName)
-        {
-            return _db
-                .FirstOrDefault(x => x.Name == localizationName)
-                .Id;
-        }
-
     }
 }

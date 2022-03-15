@@ -31,11 +31,5 @@ namespace FlowMeter.DataManipulation.Repositories
                 .ToList();
         }
 
-        public int GetDeviceId(int deviceNumber)
-        {
-            return _db
-                .FirstOrDefault(x => x.DeviceNumber == deviceNumber)
-                .Id;
-        }
     }
 }
