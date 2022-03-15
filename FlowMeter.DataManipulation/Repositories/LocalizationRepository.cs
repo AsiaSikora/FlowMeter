@@ -19,7 +19,7 @@ namespace FlowMeter.DataManipulation.Repositories
         {
             return _db
                 //.Include(x => x.Surveys)
-                .Where(x => x.Surveys.Any(y => y.Device.UserId == userId))
+                .Where(x => x.UserId == userId)
                 .ToList();
         }
 

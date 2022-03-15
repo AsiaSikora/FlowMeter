@@ -34,14 +34,15 @@ namespace FlowMeter.API.Controllers
         }
         
         [HttpPost]
-        public IActionResult CreateLocalization([FromBody] CreateLocalizationDto createLocalization)
+        public IActionResult CreateLocalization([FromBody] CreateLocalizationDto createLocalization, int userId)
         {
             var localizationDto = new LocalizationDto()
             {
                 Name = createLocalization.Name,
                 GpsCoordinate1 = createLocalization.GpsCoordinate1,
                 GpsCoordinate2 = createLocalization.GpsCoordinate2,
-                CanalRadius = createLocalization.CanalRadius
+                CanalRadius = createLocalization.CanalRadius,
+                UserId = userId
             };
             
             var localization = _mapper.Map<Localization>(localizationDto);
