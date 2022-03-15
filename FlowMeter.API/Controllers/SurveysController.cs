@@ -62,14 +62,11 @@ namespace FlowMeter.API.Controllers
         [HttpPost]
         public IActionResult CreateSurvey([FromBody] CreateSurveyDto createSurvey)
         {
-            var deviceId = _uow.Devices.GetDeviceId(createSurvey.DeviceNumber);
-            var LocalizationId = _uow.Localizations.GetLocalizationId(createSurvey.LocalizationName);
-
             var surveyDto = new SurveyDto()
             {
-                Date = DateTime.Today,
-                DeviceId = deviceId,
-                LocalizationId = LocalizationId,
+                Date = DateTime.Now,
+                DeviceId = createSurvey.DeviceId,
+                LocalizationId = createSurvey.LocalizationId,
             };
 
             var survey = _mapper.Map<Survey>(surveyDto);
@@ -77,7 +74,9 @@ namespace FlowMeter.API.Controllers
             _uow.Surveys.Add(survey);
             _uow.Save();
 
-            return CreatedAtRoute("GetSurvey", new { id = survey.Id }, surveyDto);
+            return Ok(survey);
+
+            //return CreatedAtRoute("GetSurvey", new { id = survey.Id }, surveyDto);
 
         }
 
@@ -104,10 +103,19 @@ namespace FlowMeter.API.Controllers
         [HttpGet("surveys-no-measurements")]
         public IActionResult GetSurveysWithoutMeasurements(int userId)
         {
-            var surveys = _uow.Surveys.GetLastFiveSurveys(userId);
+            var surveys = _uow.Surveys.GetAllSurveysWithoutMeasurements(userId);
             var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
 
             return Ok(surveysDto);
+        }
+
+        [HttpGet("last")]
+        public IActionResult GetLastSurvey(int userId)
+        {
+            var survey = _uow.Surveys.GetLastSurvey(userId);
+            var surveyDto = _mapper.Map<SurveyDto>(survey);
+
+            return Ok(surveyDto);
         }
         
 

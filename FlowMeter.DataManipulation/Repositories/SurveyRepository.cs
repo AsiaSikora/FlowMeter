@@ -61,5 +61,12 @@ namespace FlowMeter.DataManipulation.Repositories
                 .Include(x => x.Measurements)
                 .FirstOrDefault(x => x.Id == surveyId);
         }
+
+        public Survey GetLastSurvey(int userId)
+        {
+            return _db
+                .OrderByDescending(x => x.Date)
+                .FirstOrDefault(x => x.Device.UserId == userId);
+        }
     }
 }
