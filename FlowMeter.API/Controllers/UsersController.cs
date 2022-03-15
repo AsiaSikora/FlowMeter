@@ -28,7 +28,7 @@ namespace FlowMeter.API.Controllers
         public IActionResult GetUsers()
         {
             //var users = _uow.Users.GetAll();
-            var usersWithDevices = _uow.Users.GetAllUsersWithDevices();
+            var usersWithDevices = _uow.Users.GetAllUsersWithDevicesAndLocalizations();
             var usersDto = _mapper.Map<List<UserDto>>(usersWithDevices);
 
             return Ok(usersDto);

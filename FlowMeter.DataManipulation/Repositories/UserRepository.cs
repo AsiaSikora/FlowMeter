@@ -16,10 +16,10 @@ namespace FlowMeter.DataManipulation.Repositories
         {
         }
 
-        public List<User> GetAllUsersWithDevices(Expression<Func<User, bool>> expression = null,
+        public List<User> GetAllUsersWithDevicesAndLocalizations(Expression<Func<User, bool>> expression = null,
             Func<IQueryable<User>, IOrderedQueryable<User>> orderBy = null)
         {
-            return base.GetAll(expression, orderBy, new List<string>() { "Devices" });
+            return base.GetAll(expression, orderBy, new List<string>() { "Devices", "Localizations" });
         }
 
 

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using FlowMeter.API.Models.Device;
+using FlowMeter.API.Models.Localization;
 
 namespace FlowMeter.API.Models.User
 {
@@ -14,5 +15,7 @@ namespace FlowMeter.API.Models.User
         public int Id { get; set; }
         public string Hash { get; set; }
         public List<DeviceDto> Devices { get; set; }
+        public List<LocalizationDto> Localizations { get; set; }
+        
     }
 }

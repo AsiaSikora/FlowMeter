@@ -58,10 +58,12 @@ namespace FlowMeter.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ShapeId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Localizations");
                 });
@@ -111,13 +113,7 @@ namespace FlowMeter.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("LocalizationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("LocalizationId")
-                        .IsUnique();
 
                     b.ToTable("Shapes");
                 });
@@ -221,6 +217,13 @@ namespace FlowMeter.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("FlowMeter.Domain.Localization", b =>
+                {
+                    b.HasOne("FlowMeter.Domain.User", null)
+                        .WithMany("Localizations")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("FlowMeter.Domain.Measurement", b =>
                 {
                     b.HasOne("FlowMeter.Domain.Survey", "Survey")
@@ -230,17 +233,6 @@ namespace FlowMeter.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Survey");
-                });
-
-            modelBuilder.Entity("FlowMeter.Domain.Shape", b =>
-                {
-                    b.HasOne("FlowMeter.Domain.Localization", "Localization")
-                        .WithOne("Shape")
-                        .HasForeignKey("FlowMeter.Domain.Shape", "LocalizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Localization");
                 });
 
             modelBuilder.Entity("FlowMeter.Domain.Survey", b =>
@@ -296,8 +288,6 @@ namespace FlowMeter.Data.Migrations
 
             modelBuilder.Entity("FlowMeter.Domain.Localization", b =>
                 {
-                    b.Navigation("Shape");
-
                     b.Navigation("Surveys");
                 });
 
@@ -309,6 +299,8 @@ namespace FlowMeter.Data.Migrations
             modelBuilder.Entity("FlowMeter.Domain.User", b =>
                 {
                     b.Navigation("Devices");
+
+                    b.Navigation("Localizations");
                 });
 #pragma warning restore 612, 618
         }
