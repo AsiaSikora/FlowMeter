@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlowMeter.Domain;
 
 namespace FlowMeter.API.Controllers
 {
@@ -30,6 +31,26 @@ namespace FlowMeter.API.Controllers
             var localizationsDto = _mapper.Map<List<LocalizationDto>>(localizations);
 
             return Ok(localizationsDto);
+        }
+        
+        [HttpPost]
+        public IActionResult CreateLocalization([FromBody] CreateLocalizationDto createLocalization)
+        {
+            var localizationDto = new LocalizationDto()
+            {
+                Name = createLocalization.Name,
+                GpsCoordinate1 = createLocalization.GpsCoordinate1,
+                GpsCoordinate2 = createLocalization.GpsCoordinate2,
+                CanalRadius = createLocalization.CanalRadius
+            };
+            
+            var localization = _mapper.Map<Localization>(localizationDto);
+            
+            _uow.Localizations.Add(localization);
+            _uow.Save();
+
+            return CreatedAtRoute("Get", new { id = localizationDto.Id }, localizationDto);
+
         }
 
     }
