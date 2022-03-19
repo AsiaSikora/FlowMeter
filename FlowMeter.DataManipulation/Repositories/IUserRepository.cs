@@ -16,5 +16,7 @@ namespace FlowMeter.DataManipulation.Repositories
         void Modify(User entity);
         void Remove(int id);
         void RemoveRange(IEnumerable<User> entities);
+        User GetByEmail(string email);
+        User GetById(int id);
     }
 }

@@ -31,6 +31,15 @@ namespace FlowMeter.Data
             modelBuilder.Entity<Circle>().ToTable("Circles");
             modelBuilder.Entity<Rectangle>().ToTable("Rectangles");
             modelBuilder.Entity<Trapezium>().ToTable("Trapeziums");
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Localization>()
+                .Property(p => p.GpsCoordinate1)
+                .HasColumnType("decimal(18,4)");
+
+            modelBuilder.Entity<Localization>()
+                .Property(c => c.GpsCoordinate2)
+                .HasColumnType("decimal(18,4)");
         }
         
         

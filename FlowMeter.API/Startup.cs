@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using FlowMeter.API.Helpers;
 
 namespace FlowMeter.API
 {
@@ -36,7 +37,9 @@ namespace FlowMeter.API
                 // b => b.MigrationsAssembly("FlowMeter.Data"));
             });
 
+            services.AddCors();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<JwtService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddControllers()
@@ -65,7 +68,12 @@ namespace FlowMeter.API
 
             app.UseRouting();
 
-            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
+            app.UseCors(options => options
+                .WithOrigins(new[] { "http://localhost:3000", "http://localhost:8080", "http://localhost:4200" })
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                );
 
             app.UseAuthorization();
 
