@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using FlowMeter.API.Models.Device;
+using Newtonsoft.Json;
 
 namespace FlowMeter.API.Models.User
 {
@@ -12,7 +13,8 @@ namespace FlowMeter.API.Models.User
     {
         [Required]
         public int Id { get; set; }
-        public string Hash { get; set; }
+        
+        [JsonIgnore] public string Hash { get; set; }
         public List<DeviceDto> Devices { get; set; }
     }
 }

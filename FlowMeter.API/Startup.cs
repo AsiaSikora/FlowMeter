@@ -1,3 +1,4 @@
+using FlowMeter.API.Helpers;
 using FlowMeter.Data;
 using FlowMeter.DataManipulation;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +37,9 @@ namespace FlowMeter.API
                 // b => b.MigrationsAssembly("FlowMeter.Data"));
             });
 
+            services.AddCors();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<JwtService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddControllers()
@@ -64,6 +67,13 @@ namespace FlowMeter.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(options => options
+                .WithOrigins(new[] {"http://localhost:3000", "http://localhost:8080", "http://localhost:4200"})
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                );
 
             app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 

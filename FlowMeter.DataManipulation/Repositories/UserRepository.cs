@@ -22,6 +22,15 @@ namespace FlowMeter.DataManipulation.Repositories
             return base.GetAll(expression, orderBy, new List<string>() { "Devices" });
         }
 
+        public User GetByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
+
+        public User GetById(int id)
+        {
+            return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
 
     }
 }
