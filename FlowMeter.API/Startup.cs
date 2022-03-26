@@ -16,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using FlowMeter.API.Helpers;
+using FlowMeter.DataManipulationInterfaces;
 
 namespace FlowMeter.API
 {

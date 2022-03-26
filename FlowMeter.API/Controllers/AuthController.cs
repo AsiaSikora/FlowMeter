@@ -9,6 +9,7 @@ using FlowMeter.Domain;
 using FlowMeter.API.Helpers;
 using Microsoft.AspNetCore.Http;
 using System;
+using FlowMeter.DataManipulationInterfaces;
 
 namespace FlowMeter.API.Controllers
 {

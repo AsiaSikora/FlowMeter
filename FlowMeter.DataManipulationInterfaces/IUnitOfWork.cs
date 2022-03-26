@@ -1,4 +1,4 @@
-﻿using FlowMeter.DataManipulation.Repositories;
+﻿
 using FlowMeter.Domain;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FlowMeter.DataManipulationInterfaces;
 
-namespace FlowMeter.DataManipulation
+namespace FlowMeter.DataManipulationInterfaces
 {
     public interface IUnitOfWork
     {

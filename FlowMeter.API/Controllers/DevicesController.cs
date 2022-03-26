@@ -3,6 +3,7 @@ using AutoMapper;
 using FlowMeter.API.Models.Device;
 using FlowMeter.API.Models.User;
 using FlowMeter.DataManipulation;
+using FlowMeter.DataManipulationInterfaces;
 using FlowMeter.Domain;
 using Microsoft.AspNetCore.Mvc;
 
