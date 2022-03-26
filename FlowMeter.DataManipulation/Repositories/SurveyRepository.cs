@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FlowMeter.DataManipulation.Repositories
 {
-    public class SurveyRepository : GenericRepository<Survey>
+    public class SurveyRepository : GenericRepository<Survey>, ISurveyRepository
     {
         public SurveyRepository(FlowMeterDbContext context) : base(context)
         {

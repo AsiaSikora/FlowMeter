@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FlowMeter.DataManipulation.Repositories
 {
-    public class LocalizationRepository : GenericRepository<Localization>
+    public class LocalizationRepository : GenericRepository<Localization>, ILocalizationRepository
     {
         public LocalizationRepository(FlowMeterDbContext context) : base(context)
         {

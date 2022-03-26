@@ -10,5 +10,7 @@ namespace FlowMeter.DataManipulation.Repositories
     {
         List<Device> GetAllDevicesWithUsersAndSurveys(Expression<Func<Device, bool>> expression = null, 
             Func<IQueryable<Device>, IOrderedQueryable<Device>> orderBy = null);
+
+        List<Device> GetAllDevicesWithIncludes(int userId);
     }
 }

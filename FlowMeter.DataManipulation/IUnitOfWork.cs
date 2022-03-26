@@ -10,10 +10,10 @@ namespace FlowMeter.DataManipulation
     public interface IUnitOfWork
     {
         IUserRepository Users { get; }
-        DeviceRepository Devices { get; }
-        MeasurementRepository Measurements { get; }
-        SurveyRepository Surveys { get; }
-        LocalizationRepository Localizations { get; }
+        IDeviceRepository Devices { get; }
+        IMeasurementRepository Measurements { get; }
+        ISurveyRepository Surveys { get; }
+        ILocalizationRepository Localizations { get; }
         void Save();
 
     }
