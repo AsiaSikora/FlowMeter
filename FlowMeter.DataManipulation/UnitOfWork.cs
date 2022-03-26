@@ -1,12 +1,6 @@
 ﻿using FlowMeter.Data;
 using FlowMeter.DataManipulation.Repositories;
-using FlowMeter.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using FlowMeter.DataManipulationInterfaces;
 
 namespace FlowMeter.DataManipulation
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FlowMeter.Data;
+using FlowMeter.DataManipulationInterfaces;
 using FlowMeter.Domain;
 using Microsoft.EntityFrameworkCore;
 

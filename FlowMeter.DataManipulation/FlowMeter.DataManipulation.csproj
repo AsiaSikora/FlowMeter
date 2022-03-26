@@ -12,9 +12,10 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup>    
+    <ProjectReference Include="..\FlowMeter.DataManipulationInterfaces\FlowMeter.DataManipulationInterfaces.csproj" />    
     <ProjectReference Include="..\FlowMeter.Data\FlowMeter.Data.csproj" />
-    <ProjectReference Include="..\FlowMeter.Domain\FlowMeter.Domain.csproj" />
+    <ProjectReference Include="..\FlowMeter.Domain\FlowMeter.Domain.csproj" />    
   </ItemGroup>
 
 </Project>

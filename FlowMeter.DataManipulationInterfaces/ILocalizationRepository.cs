@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FlowMeter.Domain;
 
-namespace FlowMeter.DataManipulation.Repositories
+namespace FlowMeter.DataManipulationInterfaces
 {
     public interface ILocalizationRepository : IGenericRepository<Localization>
     {

@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FlowMeter.DataManipulationInterfaces\FlowMeter.DataManipulationInterfaces.csproj" />
     <ProjectReference Include="..\FlowMeter.DataManipulation\FlowMeter.DataManipulation.csproj" />
     <ProjectReference Include="..\FlowMeter.Data\FlowMeter.Data.csproj" />
     <ProjectReference Include="..\FlowMeter.Domain\FlowMeter.Domain.csproj" />

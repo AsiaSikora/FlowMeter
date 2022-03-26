@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FlowMeter.Domain;
 
-namespace FlowMeter.DataManipulation.Repositories
+namespace FlowMeter.DataManipulationInterfaces
 {
     public interface IDeviceRepository : IGenericRepository<Device>
     {
