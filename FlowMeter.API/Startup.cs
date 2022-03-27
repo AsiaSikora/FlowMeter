@@ -17,6 +17,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using FlowMeter.API.Helpers;
 using FlowMeter.DataManipulationInterfaces;
+using FlowMeter.API.Middleware;
 
 namespace FlowMeter.API
 {
@@ -41,6 +42,7 @@ namespace FlowMeter.API
             services.AddCors();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<JwtService>();
+            services.AddScoped<ErrorHandlingMiddleware>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddControllers()
@@ -64,6 +66,8 @@ namespace FlowMeter.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FlowMeter.API v1"));
             }
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseHttpsRedirection();
 
