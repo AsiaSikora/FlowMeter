@@ -18,6 +18,9 @@ using System.Threading.Tasks;
 using FlowMeter.API.Helpers;
 using FlowMeter.DataManipulationInterfaces;
 using FlowMeter.API.Middleware;
+using FlowMeter.API.Services.Interfaces;
+using FlowMeter.API.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace FlowMeter.API
 {
@@ -43,7 +46,9 @@ namespace FlowMeter.API
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<JwtService>();
             services.AddScoped<ErrorHandlingMiddleware>();
+            services.AddScoped<RequestTimeMiddleware>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped<ISurveysService, SurveysService>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -68,6 +73,7 @@ namespace FlowMeter.API
             }
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<RequestTimeMiddleware>();
 
             app.UseHttpsRedirection();
 
