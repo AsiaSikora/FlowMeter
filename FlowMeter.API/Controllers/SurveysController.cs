@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlowMeter.DataManipulationInterfaces;
+using Microsoft.Extensions.Logging;
+using FlowMeter.API.Exceptions;
+using FlowMeter.API.Services.Interfaces;
 
 namespace FlowMeter.API.Controllers
 {
@@ -16,78 +19,52 @@ namespace FlowMeter.API.Controllers
     [ApiController]
     public class SurveysController : ControllerBase
     {
-        private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        private readonly ISurveysService _service;
 
-        public SurveysController(IUnitOfWork uow, IMapper mapper)
+        public SurveysController(ISurveysService service)
         {
-            _uow = uow;
-            _mapper = mapper;
+            _service = service;
         }
 
         [HttpGet]
         public IActionResult GetSurveys(int userId)
         {
-            var surveys = _uow.Surveys.GetSurveysWithLocalizationDeviceMeasurements(userId);
-            var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
+            var surveys = _service.GetSurveys(userId);
 
-            return Ok(surveysDto);
+            return Ok(surveys);
         }
 
         [HttpGet("{id}", Name = "GetSurvey")]
         public IActionResult GetSurvey(int id)
         {
-            var survey = _uow.Surveys.GetSurveyWithIncludes(id);
-            var surveyDto = _mapper.Map<SurveyDto>(survey);
+            var survey = _service.GetSurvey(id);
 
-            return Ok(surveyDto);
+            return Ok(survey);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateSurvey(int id, [FromBody] UpdateSurveyDto updateSurveyDto)
         {
-            var survey = _uow.Surveys.Get(x => x.Id == id);
-
-            if (survey == null)
-            {
-                return NotFound();
-            }
-
-            _mapper.Map(updateSurveyDto, survey);
-            _uow.Surveys.Modify(survey);
-            _uow.Save();
+            _service.UpdateSurvey(id, updateSurveyDto);
 
             return NoContent();
         }
 
         [HttpPost]
-        public IActionResult CreateSurvey([FromBody] CreateSurveyDto createSurvey)
+        public IActionResult CreateSurvey([FromBody] CreateSurveyDto createSurvey, int userId)
         {
-            var surveyDto = new SurveyDto()
-            {
-                Date = DateTime.Now,
-                DeviceId = createSurvey.DeviceId,
-                LocalizationId = createSurvey.LocalizationId,
-            };
-
-            var survey = _mapper.Map<Survey>(surveyDto);
-
-            _uow.Surveys.Add(survey);
-            _uow.Save();
+            var survey = _service.CreateSurvey(createSurvey);
 
             return Ok(survey);
-
+            
+            //return Created($"/api/users/{userId}/surveys/{id}", null);
             //return CreatedAtRoute("GetSurvey", new { id = survey.Id }, surveyDto);
-
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteSurvey(int id)
         {
-            var survey = _uow.Surveys.Get(x => x.Id == id);
-
-            _uow.Surveys.Remove(id);
-            _uow.Save();
+            _service.DeleteSurvey(id);
 
             return NoContent();
         }
@@ -95,28 +72,25 @@ namespace FlowMeter.API.Controllers
         [HttpGet("last-five-surveys")]
         public IActionResult GetLastFiveSurveys(int userId)
         {
-            var surveys = _uow.Surveys.GetLastFiveSurveys(userId);
-            var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
+            var surveys = _service.GetLastFiveSurveys(userId);
 
-            return Ok(surveysDto);
+            return Ok(surveys);
         }
         
         [HttpGet("surveys-no-measurements")]
         public IActionResult GetAllSurveysWithoutMeasurements(int userId)
         {
-            var surveys = _uow.Surveys.GetAllSurveysWithoutMeasurements(userId);
-            var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
+            var surveys = _service.GetAllSurveysWithoutMeasurements(userId);
 
-            return Ok(surveysDto);
+            return Ok(surveys);
         }
 
         [HttpGet("last")]
         public IActionResult GetLastSurvey(int userId)
         {
-            var survey = _uow.Surveys.GetLastSurvey(userId);
-            var surveyDto = _mapper.Map<SurveyDto>(survey);
+            var survey = _service.GetLastSurvey(userId);
 
-            return Ok(surveyDto);
+            return Ok(survey);
         }
         
 
