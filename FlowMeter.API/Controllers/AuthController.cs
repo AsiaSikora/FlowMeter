@@ -104,6 +104,78 @@ namespace FlowMeter.API.Controllers
                 message = "success" 
             });
         }
-        
+
+        [HttpGet("user/surveys")]
+        public IActionResult UserSurveys()
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                var token = _jwtService.Verify(jwt);
+
+                int userId = int.Parse(token.Issuer);
+
+                var surveys = _uow.Surveys.GetLastFiveSurveys(userId);
+
+                return Ok(surveys);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("user/adddevice")]
+        public IActionResult AddDevice([FromBody] CreateDeviceDto createDevice, int userId)
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                var token = _jwtService.Verify(jwt);
+
+                int id = int.Parse(token.Issuer);
+
+                var deviceDto = new DeviceDto()
+                {
+                    DeviceNumber = createDevice.DeviceNumber,
+                    UserId = id
+                };
+
+                var device = _mapper.Map<Device>(deviceDto);
+
+                _uow.Devices.Add(device);
+                _uow.Save();
+
+                return CreatedAtRoute("Get", new { id = deviceDto.Id }, deviceDto);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpGet("user/getdevices")]
+        public IActionResult GetDevices(int userId)
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                var token = _jwtService.Verify(jwt);
+
+                userId = int.Parse(token.Issuer);
+
+                var devices = _uow.Devices.GetAllDevicesWithIncludes(userId);
+                var devicesDto = _mapper.Map<List<DeviceDto>>(devices);
+                return Ok(devicesDto);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
+        }
+
     }
 }
