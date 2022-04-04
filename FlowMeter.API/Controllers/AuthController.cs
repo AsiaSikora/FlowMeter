@@ -157,7 +157,7 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpGet("user/getdevices")]
-        public IActionResult GetDevices(int userId)
+        public IActionResult GetDevices()
         {
             try
             {
@@ -165,7 +165,7 @@ namespace FlowMeter.API.Controllers
 
                 var token = _jwtService.Verify(jwt);
 
-                userId = int.Parse(token.Issuer);
+                var userId = int.Parse(token.Issuer);
 
                 var devices = _uow.Devices.GetAllDevicesWithIncludes(userId);
                 var devicesDto = _mapper.Map<List<DeviceDto>>(devices);
