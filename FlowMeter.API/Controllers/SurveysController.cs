@@ -1,17 +1,6 @@
-﻿using AutoMapper;
-using FlowMeter.API.Models.Survey;
-using FlowMeter.DataManipulation;
-using FlowMeter.Domain;
-using Microsoft.AspNetCore.Http;
+﻿using FlowMeter.Application.DTOs.Survey;
+using FlowMeter.Application.Services.Surveys;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlowMeter.DataManipulationInterfaces;
-using Microsoft.Extensions.Logging;
-using FlowMeter.API.Exceptions;
-using FlowMeter.API.Services.Interfaces;
 
 namespace FlowMeter.API.Controllers
 {
@@ -51,14 +40,11 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSurvey([FromBody] CreateSurveyDto createSurvey, int userId)
+        public IActionResult CreateSurvey([FromBody] CreateSurveyDto createSurvey)
         {
             var survey = _service.CreateSurvey(createSurvey);
 
             return Ok(survey);
-            
-            //return Created($"/api/users/{userId}/surveys/{id}", null);
-            //return CreatedAtRoute("GetSurvey", new { id = survey.Id }, surveyDto);
         }
 
         [HttpDelete("{id}")]
@@ -76,7 +62,7 @@ namespace FlowMeter.API.Controllers
 
             return Ok(surveys);
         }
-        
+
         [HttpGet("surveys-no-measurements")]
         public IActionResult GetAllSurveysWithoutMeasurements(int userId)
         {
@@ -92,7 +78,7 @@ namespace FlowMeter.API.Controllers
 
             return Ok(survey);
         }
-        
+
 
     }
 }

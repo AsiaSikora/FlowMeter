@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
-using FlowMeter.API.Models.Device;
-using FlowMeter.API.Models.User;
-using FlowMeter.DataManipulation;
-using FlowMeter.DataManipulationInterfaces;
+﻿using AutoMapper;
+using FlowMeter.Application.DTOs.Device;
+using FlowMeter.Application.RepositoriesInterfaces;
 using FlowMeter.Domain;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace FlowMeter.API.Controllers
 {
@@ -21,7 +19,7 @@ namespace FlowMeter.API.Controllers
             _uow = uow;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         public IActionResult GetDevices(int userId)
         {
@@ -35,12 +33,12 @@ namespace FlowMeter.API.Controllers
         {
             var device = _uow.Devices.Get(x => x.Id == id);
             var deviceDto = _mapper.Map<DeviceDto>(device);
-        
+
             return Ok(deviceDto);
         }
-        
+
         [HttpPut("{id:int}")]
-        public IActionResult UpdateDevice(int id, [FromBody]UpdateDeviceDto updateDeviceDto)
+        public IActionResult UpdateDevice(int id, [FromBody] UpdateDeviceDto updateDeviceDto)
         {
             var device = _uow.Devices.Get(x => x.Id == id);
 
@@ -55,9 +53,9 @@ namespace FlowMeter.API.Controllers
 
             return NoContent();
         }
-        
+
         [HttpPost]
-        
+
         public IActionResult CreateDevice([FromBody] CreateDeviceDto createDevice, int userId)
         {
             var deviceDto = new DeviceDto()
@@ -65,15 +63,15 @@ namespace FlowMeter.API.Controllers
                 DeviceNumber = createDevice.DeviceNumber,
                 UserId = userId
             };
-            
+
             var device = _mapper.Map<Device>(deviceDto);
-            
+
             _uow.Devices.Add(device);
             _uow.Save();
 
             return CreatedAtRoute("Get", new { id = deviceDto.Id }, deviceDto);
 
         }
-        
+
     }
 }

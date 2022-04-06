@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using FlowMeter.API.Models.Measurement;
-using FlowMeter.DataManipulation;
+using FlowMeter.Application.DTOs.Measurement;
+using FlowMeter.Application.RepositoriesInterfaces;
 using FlowMeter.Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlowMeter.DataManipulationInterfaces;
 
 namespace FlowMeter.API.Controllers
 {
@@ -46,12 +42,12 @@ namespace FlowMeter.API.Controllers
         [HttpPost]
         public IActionResult CreateMeasurement([FromBody] CreateMeasurementDto createMeasurement, int surveyId)
         {
-        
+
             var radius = _uow.Surveys.GetSurveyWithLocalization(surveyId).Localization.CanalRadius;
             var averageFlow = _uow.Measurements.GetAverageFlow(surveyId);
             var currentFlow = MeasurementDto.GetCurrentFlow(createMeasurement, radius);
             var isSpecialPoint = MeasurementDto.CheckIsSpecialPoint(currentFlow, averageFlow);
-            
+
             var measurementDto = new MeasurementDto()
             {
                 Battery = createMeasurement.Battery,
@@ -63,15 +59,15 @@ namespace FlowMeter.API.Controllers
                 AverageFlow = averageFlow,
                 IsSpecialPoint = isSpecialPoint,
             };
-        
-        
+
+
             var measurement = _mapper.Map<Measurement>(measurementDto);
-        
+
             _uow.Measurements.Add(measurement);
             _uow.Save();
-        
-            return CreatedAtRoute("GetMeasurementName", new { id = measurement.Id, surveyId=surveyId }, measurementDto);
-        
+
+            return CreatedAtRoute("GetMeasurementName", new { id = measurement.Id, surveyId = surveyId }, measurementDto);
+
         }
 
         [HttpPut("{id}")]

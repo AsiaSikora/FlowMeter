@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowMeter.API", "FlowMeter.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowMeter.Data", "FlowMeter.Data\FlowMeter.Data.csproj", "{E101C2B7-F9D9-4DC4-B29E-C59CD25DDE39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowMeter.DataManipulation", "FlowMeter.DataManipulation\FlowMeter.DataManipulation.csproj", "{524DA22F-7947-4D31-881E-1AC53C5D37D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowMeter.DataManipulation", "FlowMeter.DataManipulation\FlowMeter.DataManipulation.csproj", "{524DA22F-7947-4D31-881E-1AC53C5D37D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowMeter.DataManipulationInterfaces", "FlowMeter.DataManipulationInterfaces\FlowMeter.DataManipulationInterfaces.csproj", "{BEEC6583-38C1-4A34-8B5F-72A37A04F701}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowMeter.Application", "FlowMeter.Application\FlowMeter.Application.csproj", "{C4FC625A-2594-4D4B-937A-529CB2A27CA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{524DA22F-7947-4D31-881E-1AC53C5D37D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{524DA22F-7947-4D31-881E-1AC53C5D37D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{524DA22F-7947-4D31-881E-1AC53C5D37D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BEEC6583-38C1-4A34-8B5F-72A37A04F701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEEC6583-38C1-4A34-8B5F-72A37A04F701}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEEC6583-38C1-4A34-8B5F-72A37A04F701}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEEC6583-38C1-4A34-8B5F-72A37A04F701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4FC625A-2594-4D4B-937A-529CB2A27CA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4FC625A-2594-4D4B-937A-529CB2A27CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4FC625A-2594-4D4B-937A-529CB2A27CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4FC625A-2594-4D4B-937A-529CB2A27CA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

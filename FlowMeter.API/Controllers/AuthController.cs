@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
-using BCrypt.Net;
-using FlowMeter.API.Models.Device;
-using FlowMeter.API.Models.User;
-using FlowMeter.DataManipulation;
-using Microsoft.AspNetCore.Mvc;
-using FlowMeter.Domain;
+﻿using AutoMapper;
 using FlowMeter.API.Helpers;
+using FlowMeter.Application.DTOs.User;
+using FlowMeter.Application.RepositoriesInterfaces;
+using FlowMeter.Domain;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using FlowMeter.DataManipulationInterfaces;
 
 namespace FlowMeter.API.Controllers
 {
 
     [Route("api")]
     [ApiController]
-    public class AuthController: Controller
+    public class AuthController : Controller
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
@@ -100,11 +96,11 @@ namespace FlowMeter.API.Controllers
         {
             Response.Cookies.Delete("jwt");
 
-            return Ok(new 
-            { 
-                message = "success" 
+            return Ok(new
+            {
+                message = "success"
             });
         }
-        
+
     }
 }

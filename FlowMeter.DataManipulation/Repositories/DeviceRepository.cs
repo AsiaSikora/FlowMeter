@@ -1,11 +1,11 @@
-﻿using System;
+﻿using FlowMeter.Application.RepositoriesInterfaces;
+using FlowMeter.Data;
+using FlowMeter.Domain;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FlowMeter.Data;
-using FlowMeter.DataManipulationInterfaces;
-using FlowMeter.Domain;
-using Microsoft.EntityFrameworkCore;
 
 namespace FlowMeter.DataManipulation.Repositories
 {
@@ -13,11 +13,11 @@ namespace FlowMeter.DataManipulation.Repositories
     {
         public DeviceRepository(FlowMeterDbContext context) : base(context)
         {
-            
+
         }
 
 
-        public List<Device> GetAllDevicesWithUsersAndSurveys(Expression<Func<Device, bool>> expression = null, 
+        public List<Device> GetAllDevicesWithUsersAndSurveys(Expression<Func<Device, bool>> expression = null,
             Func<IQueryable<Device>, IOrderedQueryable<Device>> orderBy = null)
         {
             return base.GetAll(expression, orderBy, new List<string>() { "User" });

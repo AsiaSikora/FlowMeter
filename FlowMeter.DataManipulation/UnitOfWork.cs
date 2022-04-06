@@ -1,6 +1,6 @@
-﻿using FlowMeter.Data;
+﻿using FlowMeter.Application.RepositoriesInterfaces;
+using FlowMeter.Data;
 using FlowMeter.DataManipulation.Repositories;
-using FlowMeter.DataManipulationInterfaces;
 
 namespace FlowMeter.DataManipulation
 {

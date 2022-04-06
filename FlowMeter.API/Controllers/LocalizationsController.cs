@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using FlowMeter.API.Models.Localization;
-using FlowMeter.DataManipulation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlowMeter.DataManipulationInterfaces;
+using FlowMeter.Application.DTOs.Localization;
+using FlowMeter.Application.RepositoriesInterfaces;
 using FlowMeter.Domain;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace FlowMeter.API.Controllers
 {
@@ -33,7 +28,7 @@ namespace FlowMeter.API.Controllers
 
             return Ok(localizationsDto);
         }
-        
+
         [HttpPost]
         public IActionResult CreateLocalization([FromBody] CreateLocalizationDto createLocalization, int userId)
         {
@@ -45,9 +40,9 @@ namespace FlowMeter.API.Controllers
                 CanalRadius = createLocalization.CanalRadius,
                 UserId = userId
             };
-            
+
             var localization = _mapper.Map<Localization>(localizationDto);
-            
+
             _uow.Localizations.Add(localization);
             _uow.Save();
 

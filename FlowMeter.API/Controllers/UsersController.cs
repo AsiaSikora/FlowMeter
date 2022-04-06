@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using FlowMeter.API.Models.User;
-using FlowMeter.DataManipulation;
+using FlowMeter.Application.DTOs.User;
+using FlowMeter.Application.RepositoriesInterfaces;
 using FlowMeter.Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlowMeter.DataManipulationInterfaces;
 
 namespace FlowMeter.API.Controllers
 {
@@ -45,7 +40,7 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, [FromBody]UpdateUserDto updateUserDto)
+        public IActionResult UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
         {
             var user = _uow.Users.Get(x => x.Id == id);
 
@@ -71,9 +66,9 @@ namespace FlowMeter.API.Controllers
                 Email = createUser.Email,
                 Hash = createUser.Password /// TODO: Password should be hashed
             };
-            
+
             var user = _mapper.Map<User>(userDto);
-            
+
             _uow.Users.Add(user);
             _uow.Save();
 

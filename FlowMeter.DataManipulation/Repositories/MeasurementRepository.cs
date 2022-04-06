@@ -1,10 +1,9 @@
-﻿using FlowMeter.Data;
+﻿using FlowMeter.Application.RepositoriesInterfaces;
+using FlowMeter.Data;
 using FlowMeter.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using FlowMeter.DataManipulationInterfaces;
-
 
 namespace FlowMeter.DataManipulation.Repositories
 {
@@ -39,7 +38,7 @@ namespace FlowMeter.DataManipulation.Repositories
             }
 
             return 0;
-            
+
         }
 
 

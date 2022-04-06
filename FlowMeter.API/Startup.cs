@@ -1,26 +1,18 @@
+using FlowMeter.API.Helpers;
+using FlowMeter.API.Middleware;
+using FlowMeter.Application;
+using FlowMeter.Application.RepositoriesInterfaces;
+using FlowMeter.Application.Services.Surveys;
 using FlowMeter.Data;
 using FlowMeter.DataManipulation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using FlowMeter.API.Helpers;
-using FlowMeter.DataManipulationInterfaces;
-using FlowMeter.API.Middleware;
-using FlowMeter.API.Services.Interfaces;
-using FlowMeter.API.Services;
-using Microsoft.AspNetCore.Http;
 
 namespace FlowMeter.API
 {
@@ -36,6 +28,7 @@ namespace FlowMeter.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureApplicationServices();
             services.AddDbContext<FlowMeterDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection"));
@@ -47,7 +40,6 @@ namespace FlowMeter.API
             services.AddScoped<JwtService>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddScoped<RequestTimeMiddleware>();
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<ISurveysService, SurveysService>();
 
             services.AddControllers()

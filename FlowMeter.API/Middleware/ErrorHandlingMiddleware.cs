@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlowMeter.API.Exceptions;
+﻿using FlowMeter.Application.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace FlowMeter.API.Middleware
 {
@@ -22,12 +20,12 @@ namespace FlowMeter.API.Middleware
             {
                 await next.Invoke(context);
             }
-            catch(NotFoundException notFoundException)
+            catch (NotFoundException notFoundException)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notFoundException.Message);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.LogError(e, e.Message);
 
