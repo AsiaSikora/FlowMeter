@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using FlowMeter.Application.DTOs.Localization;
-using FlowMeter.Application.RepositoriesInterfaces;
-using FlowMeter.Domain;
+﻿using FlowMeter.Application.DTOs.Localization;
+using FlowMeter.Application.Services.Localizations;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace FlowMeter.API.Controllers
 {
@@ -11,40 +8,25 @@ namespace FlowMeter.API.Controllers
     [ApiController]
     public class LocalizationsController : ControllerBase
     {
-        private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        private readonly ILocalizationsService _service;
 
-        public LocalizationsController(IUnitOfWork uow, IMapper mapper)
+        public LocalizationsController(ILocalizationsService service)
         {
-            _uow = uow;
-            _mapper = mapper;
+            _service = service;
         }
 
         [HttpGet]
         public IActionResult GetLocalizations(int userId)
         {
-            var localizations = _uow.Localizations.GetLocalizationsForUser(userId);
-            var localizationsDto = _mapper.Map<List<LocalizationDto>>(localizations);
+            var localizations = _service.GetLocalizations(userId);
 
-            return Ok(localizationsDto);
+            return Ok(localizations);
         }
 
         [HttpPost]
         public IActionResult CreateLocalization([FromBody] CreateLocalizationDto createLocalization, int userId)
         {
-            var localizationDto = new LocalizationDto()
-            {
-                Name = createLocalization.Name,
-                GpsCoordinate1 = createLocalization.GpsCoordinate1,
-                GpsCoordinate2 = createLocalization.GpsCoordinate2,
-                CanalRadius = createLocalization.CanalRadius,
-                UserId = userId
-            };
-
-            var localization = _mapper.Map<Localization>(localizationDto);
-
-            _uow.Localizations.Add(localization);
-            _uow.Save();
+            var localizationDto = _service.CreateLocalization(createLocalization, userId);
 
             return CreatedAtRoute("Get", new { id = localizationDto.Id }, localizationDto);
 

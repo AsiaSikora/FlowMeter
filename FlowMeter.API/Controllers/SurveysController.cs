@@ -18,17 +18,17 @@ namespace FlowMeter.API.Controllers
         [HttpGet]
         public IActionResult GetSurveys(int userId)
         {
-            var surveys = _service.GetSurveys(userId);
+            var surveysDto = _service.GetSurveys(userId);
 
-            return Ok(surveys);
+            return Ok(surveysDto);
         }
 
         [HttpGet("{id}", Name = "GetSurvey")]
         public IActionResult GetSurvey(int id)
         {
-            var survey = _service.GetSurvey(id);
+            var surveyDto = _service.GetSurvey(id);
 
-            return Ok(survey);
+            return Ok(surveyDto);
         }
 
         [HttpPut("{id}")]
@@ -58,27 +58,26 @@ namespace FlowMeter.API.Controllers
         [HttpGet("last-five-surveys")]
         public IActionResult GetLastFiveSurveys(int userId)
         {
-            var surveys = _service.GetLastFiveSurveys(userId);
+            var surveysDto = _service.GetLastFiveSurveys(userId);
 
-            return Ok(surveys);
+            return Ok(surveysDto);
         }
 
         [HttpGet("surveys-no-measurements")]
         public IActionResult GetAllSurveysWithoutMeasurements(int userId)
         {
-            var surveys = _service.GetAllSurveysWithoutMeasurements(userId);
+            var surveysDto = _service.GetAllSurveysWithoutMeasurements(userId);
 
-            return Ok(surveys);
+            return Ok(surveysDto);
         }
 
         [HttpGet("last")]
         public IActionResult GetLastSurvey(int userId)
         {
-            var survey = _service.GetLastSurvey(userId);
+            var surveyDto = _service.GetLastSurvey(userId);
 
-            return Ok(survey);
+            return Ok(surveyDto);
         }
-
 
     }
 }
