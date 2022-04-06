@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using FlowMeter.Application.DTOs.Device;
-using FlowMeter.Application.RepositoriesInterfaces;
-using FlowMeter.Domain;
+﻿using FlowMeter.Application.DTOs.Device;
+using FlowMeter.Application.Services.Devices;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace FlowMeter.API.Controllers
 {
@@ -11,45 +8,33 @@ namespace FlowMeter.API.Controllers
     [ApiController]
     public class DevicesController : ControllerBase
     {
-        private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        private readonly IDevicesService _service;
 
-        public DevicesController(IUnitOfWork uow, IMapper mapper)
+        public DevicesController(IDevicesService service)
         {
-            _uow = uow;
-            _mapper = mapper;
+            _service = service;
         }
 
         [HttpGet]
         public IActionResult GetDevices(int userId)
         {
-            var devices = _uow.Devices.GetAllDevicesWithIncludes(userId);
-            var devicesDto = _mapper.Map<List<DeviceDto>>(devices);
-            return Ok(devicesDto);
+            var devices = _service.GetDevices(userId);
+
+            return Ok(devices);
         }
 
         [HttpGet("{id}", Name = "GetDevice")]
         public IActionResult GetDevice(int id)
         {
-            var device = _uow.Devices.Get(x => x.Id == id);
-            var deviceDto = _mapper.Map<DeviceDto>(device);
+            var device = _service.GetDevice(id);
 
-            return Ok(deviceDto);
+            return Ok(device);
         }
 
         [HttpPut("{id:int}")]
         public IActionResult UpdateDevice(int id, [FromBody] UpdateDeviceDto updateDeviceDto)
         {
-            var device = _uow.Devices.Get(x => x.Id == id);
-
-            if (device == null)
-            {
-                return NotFound();
-            }
-
-            _mapper.Map(updateDeviceDto, device);
-            _uow.Devices.Modify(device);
-            _uow.Save();
+            _service.UpdateDevice(id, updateDeviceDto);
 
             return NoContent();
         }
@@ -58,19 +43,9 @@ namespace FlowMeter.API.Controllers
 
         public IActionResult CreateDevice([FromBody] CreateDeviceDto createDevice, int userId)
         {
-            var deviceDto = new DeviceDto()
-            {
-                DeviceNumber = createDevice.DeviceNumber,
-                UserId = userId
-            };
-
-            var device = _mapper.Map<Device>(deviceDto);
-
-            _uow.Devices.Add(device);
-            _uow.Save();
+            var deviceDto = _service.CreateDevice(createDevice, userId);
 
             return CreatedAtRoute("Get", new { id = deviceDto.Id }, deviceDto);
-
         }
 
     }

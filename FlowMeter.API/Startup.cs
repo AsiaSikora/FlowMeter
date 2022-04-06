@@ -2,7 +2,11 @@ using FlowMeter.API.Helpers;
 using FlowMeter.API.Middleware;
 using FlowMeter.Application;
 using FlowMeter.Application.RepositoriesInterfaces;
+using FlowMeter.Application.Services.Devices;
+using FlowMeter.Application.Services.Localizations;
+using FlowMeter.Application.Services.Measurements;
 using FlowMeter.Application.Services.Surveys;
+using FlowMeter.Application.Services.Users;
 using FlowMeter.Data;
 using FlowMeter.DataManipulation;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +45,10 @@ namespace FlowMeter.API
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddScoped<RequestTimeMiddleware>();
             services.AddScoped<ISurveysService, SurveysService>();
+            services.AddScoped<IDevicesService, DevicesService>();
+            services.AddScoped<ILocalizationsService, LocalizationsService>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IMeasurementsService, MeasurementsService>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>

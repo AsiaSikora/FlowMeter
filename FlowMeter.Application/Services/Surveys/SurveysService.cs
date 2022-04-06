@@ -77,6 +77,9 @@ namespace FlowMeter.Application.Services.Surveys
 
             var survey = _uow.Surveys.Get(x => x.Id == id);
 
+            if (survey is null)
+                throw new NotFoundException("Survey not found");
+
             _uow.Surveys.Remove(id);
             _uow.Save();
         }
