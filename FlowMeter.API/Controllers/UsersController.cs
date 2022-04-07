@@ -1,6 +1,7 @@
 ﻿using FlowMeter.Application.DTOs.User;
 using FlowMeter.Application.Services.Users;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace FlowMeter.API.Controllers
 {
@@ -16,33 +17,33 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            var usersDto = _service.GetUsers();
+            var usersDto = await _service.GetUsers();
 
             return Ok(usersDto);
         }
 
         [HttpGet("{id}", Name = "Get")]
-        public IActionResult GetUser(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
-            var userDto = _service.GetUser(id);
+            var userDto = await _service.GetUser(id);
 
             return Ok(userDto);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
         {
-            _service.UpdateUser(id, updateUserDto);
+            await _service.UpdateUser(id, updateUserDto);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            _service.DeleteUser(id);
+            await _service.DeleteUser(id);
 
             return NoContent();
         }

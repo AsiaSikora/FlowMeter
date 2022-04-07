@@ -4,6 +4,7 @@ using FlowMeter.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FlowMeter.DataManipulation.Repositories
 {
@@ -13,24 +14,25 @@ namespace FlowMeter.DataManipulation.Repositories
         {
         }
 
-        public List<Measurement> GetMeasurementsForSurvey(int surveyId)
+        public async Task<IReadOnlyCollection<Measurement>> GetMeasurementsForSurvey(int surveyId)
         {
-            return _db
+            return await _db
                 .Where(x => x.SurveyId == surveyId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Survey GetMeasurementSurvey(int surveyId)
+        public async Task<Survey> GetMeasurementSurvey(int surveyId)
         {
-            return _context
+            return await _context
                 .Surveys
                 .Include(x => x.Localization)
-                .FirstOrDefault(x => x.Id == surveyId);
+                .FirstOrDefaultAsync(x => x.Id == surveyId);
         }
 
-        public double GetAverageFlow(int surveyId)
+        public async Task<double> GetAverageFlow(int surveyId)
         {
-            var listOfMeasurements = _db.Where(x => x.SurveyId == surveyId).ToList();
+            var listOfMeasurements = await _db.Where(x => x.SurveyId == surveyId).ToListAsync();
+            
             if (listOfMeasurements.Count() > 0)
             {
                 return listOfMeasurements
@@ -38,7 +40,6 @@ namespace FlowMeter.DataManipulation.Repositories
             }
 
             return 0;
-
         }
 
 

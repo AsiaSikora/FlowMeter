@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace FlowMeter.DataManipulation.Repositories
 {
@@ -19,7 +20,7 @@ namespace FlowMeter.DataManipulation.Repositories
             _db = context.Set<T>();
         }
 
-        public List<T> GetAll(Expression<Func<T, bool>> expression = null,
+        public async Task<IReadOnlyCollection<T>> GetAll(Expression<Func<T, bool>> expression = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             List<string> includes = null)
         {
@@ -43,10 +44,10 @@ namespace FlowMeter.DataManipulation.Repositories
                 query = orderBy(query);
             }
 
-            return query.AsNoTracking().ToList();
+            return await query.AsNoTracking().ToListAsync();
         }
 
-        public T Get(Expression<Func<T, bool>> expression = null,
+        public async Task<T> Get(Expression<Func<T, bool>> expression = null,
             List<string> includes = null)
         {
             IQueryable<T> query = _db;
@@ -59,31 +60,31 @@ namespace FlowMeter.DataManipulation.Repositories
                 }
             }
 
-            return query.AsNoTracking().FirstOrDefault(expression);
+            return await query.AsNoTracking().FirstOrDefaultAsync(expression);
         }
 
-        public void Add(T entity)
+        public async Task Add(T entity)
         {
-            _db.Add(entity);
+            await _db.AddAsync(entity);
         }
 
-        public void AddRange(IEnumerable<T> entities)
+        public async Task AddRange(IEnumerable<T> entities)
         {
-            _db.AddRange(entities);
+            await _db.AddRangeAsync(entities);
         }
 
-        public void Remove(int id)
+        public async Task Remove(int id)
         {
-            var entity = _db.Find(id);
+            var entity = await _db.FindAsync(id);
             _db.Remove(entity);
         }
 
-        public void RemoveRange(IEnumerable<T> entities)
+        public async Task RemoveRange(IEnumerable<T> entities)
         {
             _db.RemoveRange(entities);
         }
 
-        public void Modify(T entity)
+        public async Task Modify(T entity)
         {
             _db.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;

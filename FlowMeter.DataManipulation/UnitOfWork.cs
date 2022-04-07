@@ -1,6 +1,7 @@
 ﻿using FlowMeter.Application.RepositoriesInterfaces;
 using FlowMeter.Data;
 using FlowMeter.DataManipulation.Repositories;
+using System.Threading.Tasks;
 
 namespace FlowMeter.DataManipulation
 {
@@ -18,11 +19,9 @@ namespace FlowMeter.DataManipulation
         public IMeasurementRepository Measurements => new MeasurementRepository(_context);
         public ISurveyRepository Surveys => new SurveyRepository(_context);
         public ILocalizationRepository Localizations => new LocalizationRepository(_context);
-        public void Save()
+        public async Task Save()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-
-
     }
 }

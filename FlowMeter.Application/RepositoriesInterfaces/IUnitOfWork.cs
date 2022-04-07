@@ -13,6 +13,6 @@ namespace FlowMeter.Application.RepositoriesInterfaces
         IMeasurementRepository Measurements { get; }
         ISurveyRepository Surveys { get; }
         ILocalizationRepository Localizations { get; }
-        void Save();
+        Task Save();
     }
 }

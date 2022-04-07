@@ -1,6 +1,7 @@
 ﻿using FlowMeter.Application.DTOs.Device;
 using FlowMeter.Application.Services.Devices;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace FlowMeter.API.Controllers
 {
@@ -16,34 +17,34 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetDevices(int userId)
+        public async Task<IActionResult> GetDevices(int userId)
         {
-            var devices = _service.GetDevices(userId);
+            var devices = await _service.GetDevices(userId);
 
             return Ok(devices);
         }
 
         [HttpGet("{id}", Name = "GetDevice")]
-        public IActionResult GetDevice(int id)
+        public async Task<IActionResult> GetDevice(int id)
         {
-            var device = _service.GetDevice(id);
+            var device = await _service.GetDevice(id);
 
             return Ok(device);
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult UpdateDevice(int id, [FromBody] UpdateDeviceDto updateDeviceDto)
+        public async Task<IActionResult> UpdateDevice(int id, [FromBody] UpdateDeviceDto updateDeviceDto)
         {
-            _service.UpdateDevice(id, updateDeviceDto);
+            await _service.UpdateDevice(id, updateDeviceDto);
 
             return NoContent();
         }
 
         [HttpPost]
 
-        public IActionResult CreateDevice([FromBody] CreateDeviceDto createDevice, int userId)
+        public async Task<IActionResult> CreateDevice([FromBody] CreateDeviceDto createDevice, int userId)
         {
-            var deviceDto = _service.CreateDevice(createDevice, userId);
+            var deviceDto = await _service.CreateDevice(createDevice, userId);
 
             return CreatedAtRoute("Get", new { id = deviceDto.Id }, deviceDto);
         }

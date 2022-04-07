@@ -4,6 +4,7 @@ using FlowMeter.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FlowMeter.DataManipulation.Repositories
 {
@@ -13,58 +14,58 @@ namespace FlowMeter.DataManipulation.Repositories
         {
         }
 
-        public Survey GetSurveyWithLocalization(int id)
+        public async Task<Survey> GetSurveyWithLocalization(int id)
         {
-            return _db
+            return await _db
                 .Include(x => x.Localization)
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public List<Survey> GetSurveysWithLocalizationDeviceMeasurements(int userId)
+        public async Task<IReadOnlyCollection<Survey>> GetSurveysWithLocalizationDeviceMeasurements(int userId)
         {
-            return _db
+            return await _db
                 .Include(x => x.Localization)
                 .Include(x => x.Device)
                 .Include(x => x.Measurements)
                 .Where(x => x.Device.UserId == userId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Survey> GetLastFiveSurveys(int userId)
+        public async Task<IReadOnlyCollection<Survey>> GetLastFiveSurveys(int userId)
         {
-            return _db
+            return await _db
                 .Include(x => x.Localization)
                 .Include(x => x.Device)
                 .Where(x => x.Device.UserId == userId)
                 .OrderByDescending(x => x.Date)
                 .Take(5)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Survey> GetAllSurveysWithoutMeasurements(int userId)
+        public async Task<IReadOnlyCollection<Survey>> GetAllSurveysWithoutMeasurements(int userId)
         {
-            return _db
+            return await _db
                 .Include(x => x.Localization)
                 .Include(x => x.Device)
                 .Where(x => x.Device.UserId == userId)
                 .OrderBy(x => x.Date)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Survey GetSurveyWithIncludes(int surveyId)
+        public async Task<Survey> GetSurveyWithIncludes(int surveyId)
         {
-            return _db
+            return await _db
                 .Include(x => x.Device)
                 .Include(x => x.Localization)
                 .Include(x => x.Measurements)
-                .FirstOrDefault(x => x.Id == surveyId);
+                .FirstOrDefaultAsync(x => x.Id == surveyId);
         }
 
-        public Survey GetLastSurvey(int userId)
+        public async Task<Survey> GetLastSurvey(int userId)
         {
-            return _db
+            return await _db
                 .OrderByDescending(x => x.Date)
-                .FirstOrDefault(x => x.Device.UserId == userId);
+                .FirstOrDefaultAsync(x => x.Device.UserId == userId);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FlowMeter.Application.DTOs.Survey;
 using FlowMeter.Application.Services.Surveys;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace FlowMeter.API.Controllers
 {
@@ -16,65 +17,65 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetSurveys(int userId)
+        public async Task<IActionResult> GetSurveys(int userId)
         {
-            var surveysDto = _service.GetSurveys(userId);
+            var surveysDto = await _service.GetSurveys(userId);
 
             return Ok(surveysDto);
         }
 
         [HttpGet("{id}", Name = "GetSurvey")]
-        public IActionResult GetSurvey(int id)
+        public async Task<IActionResult> GetSurvey(int id)
         {
-            var surveyDto = _service.GetSurvey(id);
+            var surveyDto = await _service.GetSurvey(id);
 
             return Ok(surveyDto);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSurvey(int id, [FromBody] UpdateSurveyDto updateSurveyDto)
+        public async Task<IActionResult> UpdateSurvey(int id, [FromBody] UpdateSurveyDto updateSurveyDto)
         {
-            _service.UpdateSurvey(id, updateSurveyDto);
+            await _service.UpdateSurvey(id, updateSurveyDto);
 
             return NoContent();
         }
 
         [HttpPost]
-        public IActionResult CreateSurvey([FromBody] CreateSurveyDto createSurvey)
+        public async Task<IActionResult> CreateSurvey([FromBody] CreateSurveyDto createSurvey)
         {
-            var survey = _service.CreateSurvey(createSurvey);
+            var survey = await _service.CreateSurvey(createSurvey);
 
             return Ok(survey);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteSurvey(int id)
+        public async Task<IActionResult> DeleteSurvey(int id)
         {
-            _service.DeleteSurvey(id);
+            await _service.DeleteSurvey(id);
 
             return NoContent();
         }
 
         [HttpGet("last-five-surveys")]
-        public IActionResult GetLastFiveSurveys(int userId)
+        public async Task<IActionResult> GetLastFiveSurveys(int userId)
         {
-            var surveysDto = _service.GetLastFiveSurveys(userId);
+            var surveysDto = await _service.GetLastFiveSurveys(userId);
 
             return Ok(surveysDto);
         }
 
         [HttpGet("surveys-no-measurements")]
-        public IActionResult GetAllSurveysWithoutMeasurements(int userId)
+        public async Task<IActionResult> GetAllSurveysWithoutMeasurements(int userId)
         {
-            var surveysDto = _service.GetAllSurveysWithoutMeasurements(userId);
+            var surveysDto = await _service.GetAllSurveysWithoutMeasurements(userId);
 
             return Ok(surveysDto);
         }
 
         [HttpGet("last")]
-        public IActionResult GetLastSurvey(int userId)
+        public async Task<IActionResult> GetLastSurvey(int userId)
         {
-            var surveyDto = _service.GetLastSurvey(userId);
+            var surveyDto = await _service.GetLastSurvey(userId);
 
             return Ok(surveyDto);
         }

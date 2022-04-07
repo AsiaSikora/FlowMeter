@@ -6,6 +6,7 @@ using FlowMeter.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace FlowMeter.API.Controllers
 {
@@ -26,7 +27,7 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register([FromBody] CreateUserDto dto)
+        public async Task<IActionResult> Register([FromBody] CreateUserDto dto)
         {
             var userDto = new UserDto()
             {
@@ -38,16 +39,16 @@ namespace FlowMeter.API.Controllers
 
             var user = _mapper.Map<User>(userDto);
 
-            _uow.Users.Add(user);
-            _uow.Save();
+            await _uow.Users.Add(user);
+            await _uow.Save();
 
             return CreatedAtRoute("Get", new { id = userDto.Id }, userDto);
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginDto dto)
+        public async Task<IActionResult> Login(LoginDto dto)
         {
-            var user = _uow.Users.GetByEmail(dto.Email);
+            var user = await _uow.Users.GetByEmail(dto.Email);
 
             if (user == null) return BadRequest(new { message = "Invalid Credentials" });
 
@@ -71,7 +72,7 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpGet("user")]
-        public IActionResult User()
+        public async Task<IActionResult> User()
         {
             try
             {
@@ -81,7 +82,7 @@ namespace FlowMeter.API.Controllers
 
                 int userId = int.Parse(token.Issuer);
 
-                var user = _uow.Users.GetById(userId);
+                var user = await _uow.Users.GetById(userId);
 
                 return Ok(user);
             }

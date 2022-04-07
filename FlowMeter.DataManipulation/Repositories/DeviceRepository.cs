@@ -1,11 +1,12 @@
-﻿using FlowMeter.Application.RepositoriesInterfaces;
-using FlowMeter.Data;
-using FlowMeter.Domain;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using FlowMeter.Application.RepositoriesInterfaces;
+using FlowMeter.Data;
+using FlowMeter.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlowMeter.DataManipulation.Repositories
 {
@@ -13,23 +14,22 @@ namespace FlowMeter.DataManipulation.Repositories
     {
         public DeviceRepository(FlowMeterDbContext context) : base(context)
         {
-
+            
         }
 
-
-        public List<Device> GetAllDevicesWithUsersAndSurveys(Expression<Func<Device, bool>> expression = null,
+        public async Task<IReadOnlyCollection<Device>> GetAllDevicesWithUsersAndSurveys(Expression<Func<Device, bool>> expression = null, 
             Func<IQueryable<Device>, IOrderedQueryable<Device>> orderBy = null)
         {
-            return base.GetAll(expression, orderBy, new List<string>() { "User" });
+            return await base.GetAll(expression, orderBy, new List<string>() { "User" });
         }
 
-        public List<Device> GetAllDevicesWithIncludes(int userId)
+        public async Task<IReadOnlyCollection<Device>> GetAllDevicesWithIncludes(int userId)
         {
-            return _db
+            return await _db
                 .Include(x => x.Surveys)
                 .Include(x => x.User)
                 .Where(x => x.User.Id == userId)
-                .ToList();
+                .ToListAsync();
         }
 
     }

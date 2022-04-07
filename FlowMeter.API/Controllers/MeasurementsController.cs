@@ -1,6 +1,7 @@
 ﻿using FlowMeter.Application.DTOs.Measurement;
 using FlowMeter.Application.Services.Measurements;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace FlowMeter.API.Controllers
 {
@@ -16,41 +17,41 @@ namespace FlowMeter.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMeasurements(int surveyId)
+        public async Task<IActionResult> GetMeasurements(int surveyId)
         {
-            var measurementsDto = _service.GetMeasurements(surveyId);
+            var measurementsDto = await _service.GetMeasurements(surveyId);
 
             return Ok(measurementsDto);
         }
 
         [HttpGet("{id}", Name = "GetMeasurementName")]
-        public IActionResult GetMeasurement(int id)
+        public async Task<IActionResult> GetMeasurement(int id)
         {
-            var measurementDto = _service.GetMeasurement(id);
+            var measurementDto = await _service.GetMeasurement(id);
 
             return Ok(measurementDto);
         }
 
         [HttpPost]
-        public IActionResult CreateMeasurement([FromBody] CreateMeasurementDto createMeasurement, int surveyId)
+        public async Task<IActionResult> CreateMeasurement([FromBody] CreateMeasurementDto createMeasurement, int surveyId)
         {
-            var measurementDto = _service.CreateMeasurement(createMeasurement, surveyId);
+            var measurementDto = await _service.CreateMeasurement(createMeasurement, surveyId);
 
             return CreatedAtRoute("GetMeasurementName", new { id = measurementDto.Id, surveyId = surveyId }, measurementDto);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateMeasurement(int id, [FromBody] UpdateMeasurementDto dto)
+        public async Task<IActionResult> UpdateMeasurement(int id, [FromBody] UpdateMeasurementDto dto)
         {
-            _service.UpdateMeasurement(id, dto);
+            await _service.UpdateMeasurement(id, dto);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteMeasurement(int id)
+        public async Task<IActionResult> DeleteMeasurement(int id)
         {
-            _service.DeleteMeasurement(id);
+            await _service.DeleteMeasurement(id);
 
             return NoContent();
         }

@@ -4,6 +4,7 @@ using FlowMeter.Application.Exceptions;
 using FlowMeter.Application.RepositoriesInterfaces;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FlowMeter.Application.Services.Users
 {
@@ -20,17 +21,17 @@ namespace FlowMeter.Application.Services.Users
             _logger = logger;
         }
 
-        public List<UserDto> GetUsers()
+        public async Task<IReadOnlyCollection<UserDto>> GetUsers()
         {
-            var usersWithDevices = _uow.Users.GetAllUsersWithDevicesAndLocalizations();
+            var usersWithDevices = await _uow.Users.GetAllUsersWithDevicesAndLocalizations();
             var usersDto = _mapper.Map<List<UserDto>>(usersWithDevices);
 
             return usersDto;
         }
 
-        public UserDto GetUser(int id)
+        public async Task<UserDto> GetUser(int id)
         {
-            var user = _uow.Users.Get(x => x.Id == id);
+            var user = await _uow.Users.Get(x => x.Id == id);
 
             if (user is null)
                 throw new NotFoundException("User not found");
@@ -40,29 +41,29 @@ namespace FlowMeter.Application.Services.Users
             return userDto;
         }
 
-        public void UpdateUser(int id, UpdateUserDto updateUserDto)
+        public async Task UpdateUser(int id, UpdateUserDto updateUserDto)
         {
-            var user = _uow.Users.Get(x => x.Id == id);
+            var user = await _uow.Users.Get(x => x.Id == id);
 
             if (user is null)
                 throw new NotFoundException("User not found");
 
             _mapper.Map(updateUserDto, user);
-            _uow.Users.Modify(user);
-            _uow.Save();
+            await _uow.Users.Modify(user);
+            await _uow.Save();
         }
 
-        public void DeleteUser(int id)
+        public async Task DeleteUser(int id)
         {
             _logger.LogError($"User with id: {id} DELETE action invoked");
 
-            var user = _uow.Users.Get(x => x.Id == id);
+            var user = await _uow.Users.Get(x => x.Id == id);
 
             if (user is null)
                 throw new NotFoundException("User not found");
 
-            _uow.Users.Remove(id);
-            _uow.Save();
+            await _uow.Users.Remove(id);
+            await _uow.Save();
         }
     }
 }

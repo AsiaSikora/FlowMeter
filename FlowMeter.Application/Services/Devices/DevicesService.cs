@@ -4,6 +4,7 @@ using FlowMeter.Application.Exceptions;
 using FlowMeter.Application.RepositoriesInterfaces;
 using FlowMeter.Domain;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FlowMeter.Application.Services.Devices
 {
@@ -18,17 +19,17 @@ namespace FlowMeter.Application.Services.Devices
             _mapper = mapper;
         }
 
-        public List<DeviceDto> GetDevices(int userId)
+        public async Task<IReadOnlyCollection<DeviceDto>> GetDevices(int userId)
         {
-            var devices = _uow.Devices.GetAllDevicesWithIncludes(userId);
+            var devices = await _uow.Devices.GetAllDevicesWithIncludes(userId);
             var devicesDto = _mapper.Map<List<DeviceDto>>(devices);
 
             return devicesDto;
         }
 
-        public DeviceDto GetDevice(int id)
+        public async Task<DeviceDto> GetDevice(int id)
         {
-            var device = _uow.Devices.Get(x => x.Id == id);
+            var device = await _uow.Devices.Get(x => x.Id == id);
 
             if (device is null)
                 throw new NotFoundException("Device not found");
@@ -38,19 +39,19 @@ namespace FlowMeter.Application.Services.Devices
             return deviceDto;
         }
 
-        public void UpdateDevice(int id, UpdateDeviceDto updateDeviceDto)
+        public async Task UpdateDevice(int id, UpdateDeviceDto updateDeviceDto)
         {
-            var device = _uow.Devices.Get(x => x.Id == id);
+            var device = await _uow.Devices.Get(x => x.Id == id);
 
             if (device is null)
                 throw new NotFoundException("Device not found");
 
             _mapper.Map(updateDeviceDto, device);
-            _uow.Devices.Modify(device);
-            _uow.Save();
+            await _uow.Devices.Modify(device);
+            await _uow.Save();
         }
 
-        public DeviceDto CreateDevice(CreateDeviceDto createDevice, int userId)
+        public async Task<DeviceDto> CreateDevice(CreateDeviceDto createDevice, int userId)
         {
             var deviceDto = new DeviceDto()
             {
@@ -60,8 +61,8 @@ namespace FlowMeter.Application.Services.Devices
 
             var device = _mapper.Map<Device>(deviceDto);
 
-            _uow.Devices.Add(device);
-            _uow.Save();
+            await _uow.Devices.Add(device);
+            await _uow.Save();
 
             return deviceDto;
         }

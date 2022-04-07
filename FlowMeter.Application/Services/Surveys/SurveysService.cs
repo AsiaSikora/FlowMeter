@@ -6,6 +6,7 @@ using FlowMeter.Domain;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FlowMeter.Application.Services.Surveys
 {
@@ -22,17 +23,17 @@ namespace FlowMeter.Application.Services.Surveys
             _logger = logger;
         }
 
-        public List<SurveyDto> GetSurveys(int userId)
+        public async Task<IReadOnlyCollection<SurveyDto>> GetSurveys(int userId)
         {
-            var surveys = _uow.Surveys.GetSurveysWithLocalizationDeviceMeasurements(userId);
+            var surveys = await _uow.Surveys.GetSurveysWithLocalizationDeviceMeasurements(userId);
             var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
 
             return surveysDto;
         }
 
-        public SurveyDto GetSurvey(int id)
+        public async Task<SurveyDto> GetSurvey(int id)
         {
-            var survey = _uow.Surveys.GetSurveyWithIncludes(id);
+            var survey = await _uow.Surveys.GetSurveyWithIncludes(id);
 
             if (survey is null)
                 throw new NotFoundException("Survey not found");
@@ -42,19 +43,20 @@ namespace FlowMeter.Application.Services.Surveys
             return surveyDto;
         }
 
-        public void UpdateSurvey(int id, UpdateSurveyDto updateSurveyDto)
+        public async Task UpdateSurvey(int id, UpdateSurveyDto updateSurveyDto)
         {
-            var survey = _uow.Surveys.Get(x => x.Id == id);
+            var survey = await _uow.Surveys.Get(x => x.Id == id);
 
             if (survey is null)
                 throw new NotFoundException("Survey not found");
 
             _mapper.Map(updateSurveyDto, survey);
-            _uow.Surveys.Modify(survey);
-            _uow.Save();
+
+            await _uow.Surveys.Modify(survey);
+            await _uow.Save();
         }
 
-        public Survey CreateSurvey(CreateSurveyDto createSurvey)
+        public async Task<Survey> CreateSurvey(CreateSurveyDto createSurvey)
         {
             var surveyDto = new SurveyDto()
             {
@@ -65,13 +67,13 @@ namespace FlowMeter.Application.Services.Surveys
 
             var survey = _mapper.Map<Survey>(surveyDto);
 
-            _uow.Surveys.Add(survey);
-            _uow.Save();
+            await _uow.Surveys.Add(survey);
+            await _uow.Save();
 
             return survey;
         }
 
-        public void DeleteSurvey(int id)
+        public async Task DeleteSurvey(int id)
         {
             _logger.LogError($"Survey with id: {id} DELETE action invoked");
 
@@ -80,30 +82,30 @@ namespace FlowMeter.Application.Services.Surveys
             if (survey is null)
                 throw new NotFoundException("Survey not found");
 
-            _uow.Surveys.Remove(id);
-            _uow.Save();
+            await _uow.Surveys.Remove(id);
+            await _uow.Save();
         }
 
-        public List<SurveyDto> GetLastFiveSurveys(int userId)
+        public async Task<IReadOnlyCollection<SurveyDto>> GetLastFiveSurveys(int userId)
         {
-            var surveys = _uow.Surveys.GetLastFiveSurveys(userId);
+            var surveys = await _uow.Surveys.GetLastFiveSurveys(userId);
 
             var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
 
             return surveysDto;
         }
 
-        public List<SurveyDto> GetAllSurveysWithoutMeasurements(int userId)
+        public async Task<IReadOnlyCollection<SurveyDto>> GetAllSurveysWithoutMeasurements(int userId)
         {
-            var surveys = _uow.Surveys.GetAllSurveysWithoutMeasurements(userId);
+            var surveys = await _uow.Surveys.GetAllSurveysWithoutMeasurements(userId);
             var surveysDto = _mapper.Map<List<SurveyDto>>(surveys);
 
             return surveysDto;
         }
 
-        public SurveyDto GetLastSurvey(int userId)
+        public async Task<SurveyDto> GetLastSurvey(int userId)
         {
-            var survey = _uow.Surveys.GetLastSurvey(userId);
+            var survey = await _uow.Surveys.GetLastSurvey(userId);
             if (survey is null)
                 throw new NotFoundException("Survey not found");
 

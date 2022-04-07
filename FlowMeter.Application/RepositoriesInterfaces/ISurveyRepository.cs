@@ -1,15 +1,16 @@
 ﻿using FlowMeter.Domain;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FlowMeter.Application.RepositoriesInterfaces
 {
     public interface ISurveyRepository : IGenericRepository<Survey>
     {
-        public Survey GetSurveyWithLocalization(int id);
-        public List<Survey> GetSurveysWithLocalizationDeviceMeasurements(int userId);
-        public List<Survey> GetLastFiveSurveys(int userId);
-        public List<Survey> GetAllSurveysWithoutMeasurements(int userId);
-        public Survey GetSurveyWithIncludes(int surveyId);
-        public Survey GetLastSurvey(int userId);
+        Task<Survey> GetSurveyWithLocalization(int id);
+        Task<IReadOnlyCollection<Survey>> GetSurveysWithLocalizationDeviceMeasurements(int userId);
+        Task<IReadOnlyCollection<Survey>> GetLastFiveSurveys(int userId);
+        Task<IReadOnlyCollection<Survey>> GetAllSurveysWithoutMeasurements(int userId);
+        Task<Survey> GetSurveyWithIncludes(int surveyId);
+        Task<Survey> GetLastSurvey(int userId);
     }
 }

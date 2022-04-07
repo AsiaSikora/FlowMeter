@@ -1,8 +1,10 @@
 ﻿using FlowMeter.Application.RepositoriesInterfaces;
 using FlowMeter.Data;
 using FlowMeter.Domain;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FlowMeter.DataManipulation.Repositories
 {
@@ -12,12 +14,11 @@ namespace FlowMeter.DataManipulation.Repositories
         {
         }
 
-        public List<Localization> GetLocalizationsForUser(int userId)
+        public async Task<IReadOnlyCollection<Localization>> GetLocalizationsForUser(int userId)
         {
-            return _db
-                //.Include(x => x.Surveys)
+            return await _db
                 .Where(x => x.UserId == userId)
-                .ToList();
+                .ToListAsync();
         }
 
     }

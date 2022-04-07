@@ -1,12 +1,13 @@
 ﻿using FlowMeter.Domain;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FlowMeter.Application.RepositoriesInterfaces
 {
     public interface IMeasurementRepository : IGenericRepository<Measurement>
     {
-        public List<Measurement> GetMeasurementsForSurvey(int surveyId);
-        public Survey GetMeasurementSurvey(int surveyId);
-        public double GetAverageFlow(int surveyId);
+        Task<IReadOnlyCollection<Measurement>> GetMeasurementsForSurvey(int surveyId);
+        Task<Survey> GetMeasurementSurvey(int surveyId);
+        Task<double> GetAverageFlow(int surveyId);
     }
 }
