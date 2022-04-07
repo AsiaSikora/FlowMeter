@@ -13,21 +13,5 @@ namespace FlowMeter.Application.DTOs.Measurement
         public int SurveyId { get; set; }
         public DateTime Time { get; set; }
 
-        public static double GetCurrentFlow(CreateMeasurementDto createMeasurement, double radius)
-        {
-            var sectionArea = GetSectionArea(createMeasurement, radius);
-
-            return sectionArea * createMeasurement.Velocity;
-        }
-
-        private static double GetSectionArea(CreateMeasurementDto createMeasurement, double radius)
-        {
-            return 2.00;
-        }
-
-        public static bool CheckIsSpecialPoint(double currentFlow, double averageFlow)
-        {
-            return currentFlow > 2 * averageFlow;
-        }
     }
 }

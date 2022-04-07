@@ -49,8 +49,8 @@ namespace FlowMeter.Application.Services.Measurements
             var survey = await _uow.Surveys.GetSurveyWithLocalization(surveyId);
             var radius = survey.Localization.CanalRadius;
             var averageFlow = await _uow.Measurements.GetAverageFlow(surveyId);
-            var currentFlow = MeasurementDto.GetCurrentFlow(createMeasurement, radius);
-            var isSpecialPoint = MeasurementDto.CheckIsSpecialPoint(currentFlow, averageFlow);
+            var currentFlow = GetCurrentFlow(createMeasurement, radius);
+            var isSpecialPoint = CheckIsSpecialPoint(currentFlow, averageFlow);
 
             var measurementDto = new MeasurementDto()
             {
@@ -95,6 +95,23 @@ namespace FlowMeter.Application.Services.Measurements
 
             await _uow.Measurements.Remove(id);
             await _uow.Save();
+        }
+
+        private double GetCurrentFlow(CreateMeasurementDto createMeasurement, double radius)
+        {
+            var sectionArea = GetSectionArea(createMeasurement, radius);
+
+            return sectionArea * createMeasurement.Velocity;
+        }
+
+        private double GetSectionArea(CreateMeasurementDto createMeasurement, double radius)
+        {
+            return 2.00;
+        }
+
+        private bool CheckIsSpecialPoint(double currentFlow, double averageFlow)
+        {
+            return currentFlow > 1.5 * averageFlow;
         }
     }
 }
