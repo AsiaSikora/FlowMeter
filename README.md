@@ -1,4 +1,4 @@
-# FlowMeterApp
+# FlowMeterApp - back-end
 
 FlowMeterApp is an web application that allows to integrate dedicated flow measurement device with a database and easily manage the measurements with simple and convenient interface for the user.
 
@@ -9,3 +9,6 @@ Our application allows user to:
 - see the current measurement values in numbers and graphs
 - control of increased flows
 - archive and view reports from previous measurements
+
+Link for front-end of application:
+https://github.com/AsiaSikora/flow-react
