@@ -30,7 +30,8 @@ namespace FlowMeter.API.Controllers
         private readonly ISurveysService _surveyService;
         private readonly ILocalizationsService _localizationService;
 
-        public AuthController(IUnitOfWork uow, IMapper mapper, JwtService jwtService, IDevicesService devicesService, ISurveysService surveyService, ILocalizationsService localizationService)
+        public AuthController(IUnitOfWork uow, IMapper mapper, JwtService jwtService, IDevicesService devicesService,
+            ISurveysService surveyService, ILocalizationsService localizationService)
         {
             _uow = uow;
             _mapper = mapper;
